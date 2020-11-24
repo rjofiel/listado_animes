@@ -1,0 +1,16 @@
+<div>Login/SignUp</div>
+<div>SEARCH BAR</div>
+
+<div>
+  <p>Aqui van a ir la lista entera de animes</p>
+  <p>Pero cada elemento de esta lista es un subelemento de animes => anime</p>
+</div>
+
+<div *ngIf="loading">
+  Loading...
+</div>
+<div *ngIf="ListaPagina && Animes.length">
+  <app-anime-item *ngFor="let anime of Animes" [elemAnime]="anime"> </app-anime-item>
+</div>
+
+
