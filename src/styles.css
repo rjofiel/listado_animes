@@ -1,2 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/bootstrap/dist/css/bootstrap.css"
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+
+.fixed-position{
+  height: 94vh;
+  overflow: hidden;
+  filter: blur(2px);
+
+}
+
+.container-modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(46, 45, 45, 0.5);
+}
+
+.modal-open{
+  color: cadetblue;
+  overflow: scroll;
+}

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IAnime } from './interfaces/i-anime';
-import { PagesAnime } from './interfaces/pages-anime';
-import { AnimesService } from './services/animes.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,22 +9,13 @@ import { AnimesService } from './services/animes.service';
 export class AppComponent {
   title = 'anime-list';
 
+  constructor(
+    private router: Router){
 
-  pagepos: number = 1;
-  ListaPagina: any;
-  Animes: any[] = [];
-  error: any;
-  loading: boolean | undefined;
+  }
 
-constructor (private animeServices: AnimesService ){}
-
-  sumPage = (ev:Event):void => {
-    ev.preventDefault();
-    this.animeServices.nextPage(++this.pagepos).subscribe(({ data, loading, error }) => {
-      this.ListaPagina = data.Page as PagesAnime,
-      this.Animes = data.Page.media as IAnime[],
-      this.loading = loading,
-      this.error = error;
-    });
+  volver = (e:any) => {
+    e.preventDefault();
+    this.router.navigate(['/ListadoAnimes/page', 1]);
   }
 }

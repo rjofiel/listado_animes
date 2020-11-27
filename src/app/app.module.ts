@@ -8,18 +8,23 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AnimesService } from './services/animes.service';
 import { AnimeItemComponent } from './anime-item/anime-item.component';
+import { SearchanimeComponent } from './searchanime/searchanime.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     DatasAnimesComponent,
-    AnimeItemComponent
+    AnimeItemComponent,
+    SearchanimeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     GraphQLModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AnimesService],
   bootstrap: [AppComponent]

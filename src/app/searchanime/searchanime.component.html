@@ -1,0 +1,128 @@
+<div class="container-fluid" id="contenedor">
+  <form>
+    <div class="form-group">
+      <label for="buscadorAvanzado">Busqueda</label>
+      <input
+        type="search"
+        name="buscadorAvanzado"
+        id="buscadorAvanzado"
+        [(ngModel)]="textSearch"
+        (keydown)="Animesearch($event)"
+      />
+      <label for="isAdult"> Contenido Adulto </label>
+      <select class="form-control-sm" name="isAdult" id="isAdult">
+        <option value="No">No</option>
+        <option value="Si">Si</option>
+      </select>
+
+      <button class="dropdown-btn" (click)="togg($event)">Genero</button>
+
+      <label for="year">Año</label>
+      <select class="form-control-sm" name="year" id="year">
+        <option *ngFor="let year of years" value="{{ year }}">
+          {{ year }}
+        </option>
+      </select>
+
+      <label for="season">Season</label>
+      <select class="form-control-sm" name="season" id="season">
+        <option *ngFor="let estacion of temporada" value="{{ estacion }}">
+          {{ estacion }}
+        </option>
+      </select>
+
+      <label for="status">Status</label>
+      <select class="form-control-sm" name="status" id="status">
+        <option *ngFor="let stats of estado" value="{{ stats }}">
+          {{ stats }}
+        </option>
+      </select>
+
+      <label for="source">Source</label>
+      <select class="form-control-sm" name="source" id="source">
+        <option *ngFor="let source of origen" value="{{ source }}">
+          {{ source }}
+        </option>
+      </select>
+
+      <div *ngIf="dropmenu.genero">
+        <div class="form-check-inline" *ngFor="let pos of generos">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="{{ pos }}"
+            id="{{ pos }}"
+          />
+          <label class="form-check-label" for="{{ pos }}">{{ pos }}</label>
+        </div>
+      </div>
+
+      <input
+        type="file"
+        class="form-control-file"
+        name="searchImage"
+        id="searchImage"
+        #imageSearch
+        (change)="loadImage(imageSearch)"
+        accept="image/*"
+      />
+
+      <div *ngIf="image">
+        <img [src]="image" alt="" width="500" height="400" />
+      </div>
+    </div>
+  </form>
+  <button class="btn btn-primary" (click)="showModal()">Prueba de Modal</button>
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="ListaPagina && Animes.length; else noExist">
+    <app-anime-item *ngFor="let anime of Animes" [elemAnime]="anime">
+    </app-anime-item>
+  </div>
+
+  <ng-template #noExist>
+    <h1>No existen animes a mostrar</h1>
+  </ng-template>
+
+</div>
+
+<ng-container #vc>
+
+</ng-container>
+
+<ng-template #ModalSearch>
+  <div class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Posibles coincidencias</h4>
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="closeModal()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="imageFound; else notFound">
+              <app-anime-item *ngFor="let anime of AnimesModal" [elemAnime]="anime">
+              </app-anime-item>
+          </div>
+          <ng-template #notFound>
+            <h1>No se encontraron coincidencias</h1>
+          </ng-template>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-danger"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
