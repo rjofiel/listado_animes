@@ -1,4 +1,13 @@
-<div class="container-fluid" id="contenedor">
+<div
+  class="container-fluid"
+  id="contenedor"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  [infiniteScrollContainer]="selector"
+  [fromRoot]="true"
+  (scrolled)="onScroll()"
+>
   <form>
     <div class="form-group">
       <label for="buscadorAvanzado">Busqueda</label>
@@ -7,7 +16,7 @@
         name="buscadorAvanzado"
         id="buscadorAvanzado"
         [(ngModel)]="textSearch"
-        (keydown)="Animesearch($event)"
+        (keyup)="Animesearch($event)"
       />
       <label for="isAdult"> Contenido Adulto </label>
       <select class="form-control-sm" name="isAdult" id="isAdult">
@@ -18,6 +27,7 @@
       <button class="dropdown-btn" (click)="togg($event)">Genero</button>
 
       <label for="year">Año</label>
+
       <select class="form-control-sm" name="year" id="year">
         <option *ngFor="let year of years" value="{{ year }}">
           {{ year }}
@@ -82,12 +92,9 @@
   <ng-template #noExist>
     <h1>No existen animes a mostrar</h1>
   </ng-template>
-
 </div>
 
-<ng-container #vc>
-
-</ng-container>
+<ng-container #vc> </ng-container>
 
 <ng-template #ModalSearch>
   <div class="modal fade" tabindex="-1">
@@ -106,19 +113,18 @@
         </div>
         <div class="modal-body">
           <div *ngIf="imageFound; else notFound">
-              <app-anime-item *ngFor="let anime of AnimesModal" [elemAnime]="anime">
-              </app-anime-item>
+            <app-anime-item
+              *ngFor="let anime of AnimesModal"
+              [elemAnime]="anime"
+            >
+            </app-anime-item>
           </div>
           <ng-template #notFound>
             <h1>No se encontraron coincidencias</h1>
           </ng-template>
         </div>
         <div class="modal-footer">
-          <button
-            class="btn btn-danger"
-            type="button"
-            (click)="closeModal()"
-          >
+          <button class="btn btn-danger" type="button" (click)="closeModal()">
             Cancel
           </button>
         </div>

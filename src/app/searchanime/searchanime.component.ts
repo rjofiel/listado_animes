@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@an
 import { Generos } from '../interfaces/generos';
 import { IAnime } from '../interfaces/i-anime';
 import { ImgAnime } from '../interfaces/img-anime';
+import { PageInfo } from '../interfaces/page-info';
 import { PagesAnime } from '../interfaces/pages-anime';
 import { SearchImage } from '../interfaces/search-image';
 import { AnimesService } from '../services/animes.service';
@@ -15,6 +16,7 @@ import { SearchImageService } from '../services/search-image.service';
 })
 export class SearchanimeComponent implements OnInit {
 
+  selector: string = '.search-results'
   @ViewChild('ModalSearch')
   ModalSearch!: TemplateRef<any>;
   @ViewChild('vc', { read: ViewContainerRef }) vc: ViewContainerRef | undefined;
@@ -32,6 +34,8 @@ export class SearchanimeComponent implements OnInit {
 
   public imgRandom: any;
 
+  pagepos: number = 1;
+
   public textSearch: string = '';
 
   dropmenu = {
@@ -40,6 +44,11 @@ export class SearchanimeComponent implements OnInit {
 
   constructor(private animeService: AnimesService, private searchImage: SearchImageService) { }
 
+
+  public pageInfo: PageInfo = {
+    currentPage: 1,
+    lastPage: 2
+  };
 
   public imgAnimes: ImgAnime = {
     large: '',
@@ -59,6 +68,7 @@ export class SearchanimeComponent implements OnInit {
   public ListaPagina: PagesAnime = {
     Page: {
       media: this.Animes,
+      pageInfo: this.pageInfo
     }
   };
 
@@ -97,8 +107,11 @@ export class SearchanimeComponent implements OnInit {
   public ListaPaginaModal: PagesAnime = {
     Page: {
       media: this.Animes,
+      pageInfo: this.pageInfo
     }
   };
+
+
 
 
   ngOnInit(): void {
@@ -116,11 +129,24 @@ export class SearchanimeComponent implements OnInit {
     this.initSearch()
   }
 
+
+
   initSearch = () => {
     this.animeService.getDataAdv().subscribe(({ data, loading, error }) => {
       this.ListaPagina = data.Page as PagesAnime,
-        this.Animes = data.Page.media as IAnime[],
-        this.loading = loading,
+      this.Animes = data.Page.media as IAnime[],
+      this.pageInfo = data.Page.pageInfo as PageInfo;
+      this.loading = loading,
+      this.error = error;
+    })
+  }
+
+
+  nextPageSearch = (s?: string, pos?: number) => {
+    this.animeService.getNextPage(s, pos).subscribe(({ data, loading, error }) => {
+      this.Animes = this.Animes.concat(data.Page.media as IAnime[]),
+      this.pageInfo = data.Page.pageInfo as PageInfo;
+      this.loading = loading,
         this.error = error;
     })
   }
@@ -174,12 +200,12 @@ export class SearchanimeComponent implements OnInit {
 
   }
 
-  AnimesearchModal = (n: number[])=> {
-      this.animeService.searchModal(n).subscribe(({ data, loading, error }) => {
-          this.AnimesModal  = data.Page.media as IAnime[],
-          this.loading = loading,
-          this.error = error;
-      }).unsubscribe;
+  AnimesearchModal = (n: number[]) => {
+    this.animeService.searchModal(n).subscribe(({ data, loading, error }) => {
+      this.AnimesModal = data.Page.media as IAnime[],
+        this.loading = loading,
+        this.error = error;
+    }).unsubscribe;
 
   }
 
@@ -187,14 +213,14 @@ export class SearchanimeComponent implements OnInit {
 
     let arrayID: number[] = [];
 
-    this.imageFound?.forEach( (e) => {
-        arrayID.push(e.anilist_id);
+    this.imageFound?.forEach((e) => {
+      arrayID.push(e.anilist_id);
     })
 
-    if(arrayID !== []){
-    let noRepeat = arrayID.filter((el, i)=> arrayID.indexOf(el)===i);
+    if (arrayID !== []) {
+      let noRepeat = arrayID.filter((el, i) => arrayID.indexOf(el) === i);
 
-    this.AnimesearchModal(noRepeat);
+      this.AnimesearchModal(noRepeat);
     }
 
 
@@ -224,5 +250,17 @@ export class SearchanimeComponent implements OnInit {
     let contenedor = document.getElementById('contenedor');
     contenedor?.classList.remove('fixed-position')
     document.body.removeChild(this.backdrop);
+  }
+
+
+  onScroll() {
+    this.pagepos++;
+
+    if (this.pagepos < this.pageInfo.lastPage) {
+      this.nextPageSearch(this.textSearch, this.pagepos);
+    }
+
+
+
   }
 }

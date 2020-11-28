@@ -22,6 +22,12 @@ export class DatasAnimesComponent implements OnInit {
 
   constructor(private animeServices: AnimesService, private route: ActivatedRoute, private ruta: Router) { }
 
+
+  public pageInfo : PageInfo = {
+    currentPage: 1,
+    lastPage: 2
+  };
+
   public imgAnimes: ImgAnime = {
     large: '',
     medium: '',
@@ -40,6 +46,7 @@ export class DatasAnimesComponent implements OnInit {
   public ListaPagina: PagesAnime = {
     Page: {
       media: this.Animes,
+      pageInfo: this.pageInfo
     }
   };
 

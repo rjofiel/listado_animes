@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
+
+
 .fixed-position{
   height: 94vh;
   overflow: hidden;
@@ -22,4 +24,14 @@
 .modal-open{
   color: cadetblue;
   overflow: scroll;
+}
+
+.search-results {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.scrollHidden{
+  height: 100vh;
+  overflow: hidden;
 }

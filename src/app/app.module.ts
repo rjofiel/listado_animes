@@ -10,6 +10,9 @@ import { AnimesService } from './services/animes.service';
 import { AnimeItemComponent } from './anime-item/anime-item.component';
 import { SearchanimeComponent } from './searchanime/searchanime.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 
 @NgModule({
   declarations: [
@@ -19,14 +22,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SearchanimeComponent
   ],
   imports: [
-    BrowserModule,
+    [BrowserModule, InfiniteScrollModule],
     AppRoutingModule,
     GraphQLModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   providers: [AnimesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+platformBrowserDynamic().bootstrapModule(AppModule)
