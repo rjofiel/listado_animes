@@ -12,6 +12,7 @@ import { SearchanimeComponent } from './searchanime/searchanime.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AnimeDetailsComponent } from './anime-details/anime-details.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
     AppComponent,
     DatasAnimesComponent,
     AnimeItemComponent,
-    SearchanimeComponent
+    SearchanimeComponent,
+    AnimeDetailsComponent
   ],
   imports: [
     [BrowserModule, InfiniteScrollModule],

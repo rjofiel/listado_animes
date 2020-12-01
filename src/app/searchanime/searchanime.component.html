@@ -2,68 +2,111 @@
   class="container-fluid"
   id="contenedor"
   infiniteScroll
-  [infiniteScrollDistance]="2"
-  [infiniteScrollThrottle]="50"
+  [infiniteScrollDistance]="1"
+  [infiniteScrollUpDistance]="2"
+  [infiniteScrollThrottle]="150"
   [infiniteScrollContainer]="selector"
   [fromRoot]="true"
-  (scrolled)="onScroll()"
+  (scrolled)="filterNextPage()"
 >
-  <form>
+  <form [formGroup]="animeBrowse" novalidate>
     <div class="form-group">
-      <label for="buscadorAvanzado">Busqueda</label>
+      <label class="col-form-label" for="buscadorAvanzado">Busqueda</label>
       <input
+        class="form-control"
+        formControlName="searchTextAdvanced"
         type="search"
         name="buscadorAvanzado"
         id="buscadorAvanzado"
         [(ngModel)]="textSearch"
-        (keyup)="Animesearch($event)"
+        (keyup)="updatePage()"
       />
-      <label for="isAdult"> Contenido Adulto </label>
-      <select class="form-control-sm" name="isAdult" id="isAdult">
-        <option value="No">No</option>
-        <option value="Si">Si</option>
+      <label class="col-form-label" for="isAdult"> Contenido Adulto </label>
+      <select
+        class="form-control-sm"
+        formControlName="isAdult"
+        name="isAdult"
+        id="isAdult"
+      >
+        <option value="{{ false }}" selected>No</option>
+        <option value="{{ true }}">Si</option>
       </select>
 
-      <button class="dropdown-btn" (click)="togg($event)">Genero</button>
+      <button
+        class="btn btn-outline-primary dropdown-btn"
+        (click)="togg($event)"
+      >
+        Genero
+      </button>
 
-      <label for="year">Año</label>
+      <label class="form-label" for="year">Año</label>
 
-      <select class="form-control-sm" name="year" id="year">
-        <option *ngFor="let year of years" value="{{ year }}">
-          {{ year }}
+      <select
+        class="form-control-sm"
+        name="year"
+        id="year"
+        (change)="changeYearAnime($event); updatePage()"
+        formControlName="yearAnime"
+      >
+        <option value="" selected disabled>Any</option>
+        <option *ngFor="let yearSeason of years" [ngValue]="yearSeason">
+          {{ yearSeason }}
         </option>
       </select>
 
-      <label for="season">Season</label>
-      <select class="form-control-sm" name="season" id="season">
-        <option *ngFor="let estacion of temporada" value="{{ estacion }}">
+      <label class="form-group" for="season">Season</label>
+      <select
+        class="form-control-sm"
+        name="season"
+        id="season"
+        (change)="changeSeason($event); updatePage()"
+        formControlName="season"
+      >
+        <option value="" selected disabled>Select a season</option>
+        <option *ngFor="let estacion of temporada" [ngValue]="estacion">
           {{ estacion }}
         </option>
       </select>
 
       <label for="status">Status</label>
-      <select class="form-control-sm" name="status" id="status">
-        <option *ngFor="let stats of estado" value="{{ stats }}">
+      <select
+        class="form-control-sm"
+        name="status"
+        id="status"
+        (change)="changeStatus($event);updatePage()"
+        formControlName="status"
+      >
+        <option value="" selected disabled>Select a status</option>
+        <option *ngFor="let stats of estado" [ngValue]="stats">
           {{ stats }}
         </option>
       </select>
 
       <label for="source">Source</label>
-      <select class="form-control-sm" name="source" id="source">
-        <option *ngFor="let source of origen" value="{{ source }}">
+      <select
+        class="form-control-sm"
+        name="source"
+        id="source"
+        (change)="changeSource($event); updatePage()"
+        formControlName="source"
+      >
+        <option value="" selected disabled>Select a source</option>
+        <option *ngFor="let source of origen" [ngValue]="source">
           {{ source }}
         </option>
       </select>
 
       <div *ngIf="dropmenu.genero">
-        <div class="form-check-inline" *ngFor="let pos of generos">
+        <div class="form-check-inline form-group" *ngFor="let gen of generos">
           <input
             class="form-check-input"
             type="checkbox"
-            name="{{ pos }}"
-            id="{{ pos }}"
+            name="{{ gen }}"
+            id="{{ gen }}"
+            [value]="gen"
+            (change)="changeGenero($event); updatePage()"
           />
-          <label class="form-check-label" for="{{ pos }}">{{ pos }}</label>
+          <label class="form-check-label" for="{{ gen }}">{{ gen }}</label>
         </div>
       </div>
 
@@ -73,7 +116,7 @@
         name="searchImage"
         id="searchImage"
         #imageSearch
-        (change)="loadImage(imageSearch)"
+        (change)="loadImage(imageSearch); updatePage()"
         accept="image/*"
       />
 

@@ -6,7 +6,7 @@
       type="search"
       name="search"
       [(ngModel)]="textSearch"
-      (keyup)="Animesearch($event)"
+      (keyup)="searchText($event)"
       placeholder="Search"
       aria-label="Search"
     />
@@ -15,22 +15,24 @@
 
 <div *ngIf="loading">Loading...</div>
 <div *ngIf="ListaPagina && Animes.length; else noExist">
+
   <app-anime-item *ngFor="let anime of Animes" [elemAnime]="anime">
   </app-anime-item>
   <div>
     <p href="#">
       <a
         href="#"
-        (click)="minusPage($event)"
+        (click)="updatePage($event, 'back') "
 
-        *ngIf="pagepos > 1"
+        *ngIf="pageInfo.currentPage > 1"
       >
         &laquo;
       </a>
-      {{ pagepos }}
+      {{ pageInfo.currentPage }}
       <a
+      *ngIf="pageInfo.hasNextPage"
         href="#"
-        (click)="sumPage($event)"
+        (click)="updatePage($event, 'next')"
       >
         &laquo;
       </a>
