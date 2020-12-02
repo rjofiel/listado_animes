@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IAnime } from '../interfaces/i-anime';
+import { AnimesService } from '../services/animes.service';
 
 @Component({
   selector: 'app-anime-item',
@@ -23,9 +24,10 @@ export class AnimeItemComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(private animeService:AnimesService) { }
 
   ngOnInit(): void {
+    this.elemAnime = this.animeService.fixDescription(this.elemAnime);
   }
 
 }

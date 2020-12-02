@@ -281,8 +281,6 @@ export class SearchanimeComponent implements OnInit {
       current = this.pageInfo.currentPage + 1;
     }
 
-    console.log(current);
-
     let textAdulto: boolean = Boolean(this.animeBrowse.value.isAdult);
     let genero: string[] = this.animeBrowse.value.genero;
     let yearAnime: string = this.convertString((this.animeBrowse.value.yearAnime).toString());
@@ -294,7 +292,7 @@ export class SearchanimeComponent implements OnInit {
     let status: string = '';
 
     switch (this.convertString(this.animeBrowse.value.status)) {
-      case 'Airign':
+      case 'Airing':
         status = 'RELEASING'
         break;
       case 'Finished':

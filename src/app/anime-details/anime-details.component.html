@@ -1,1 +1,57 @@
-<p>anime-details works!</p>
+<div class="container-fluid">
+  <div *ngIf="loading">
+    <h2>Cargando</h2>
+  </div>
+  <div *ngIf="animeData.id !== 0">
+    <img [src]="animeData.coverImage.large" [alt]="animeData.title.romaji" />
+    <h1>{{ animeData.title.userPreferred }}</h1>
+    <p>{{ animeData.description }}</p>
+
+    <div>
+      <p>{{ animeData.status }}</p>
+      <p>Episodes: {{ animeData.episodes }}</p>
+      <p>
+        Start date: {{ animeData.startDate.day }}/{{
+          animeData.startDate.month
+        }}/{{ animeData.startDate.year }}
+      </p>
+      <p>
+        End date: {{ animeData.endDate.day }}/{{ animeData.endDate.month }}/{{
+          animeData.endDate.year
+        }}
+      </p>
+    </div>
+
+    <div *ngFor="let link of animeData.externalLinks">
+      <p>
+        <a [href]="link.url">{{ link.site }}</a>
+      </p>
+    </div>
+
+    <div>
+      <div>
+        <h3></h3>
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+    <div>
+      <h1>Trailer</h1>
+      <div class="mce-iframe">
+        <iframe
+
+        width="720"
+        height="420"
+        [src]='safeURL'
+
+        frameborder = "0"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #details> </ng-template>

@@ -112,7 +112,6 @@ export class DatasAnimesComponent implements OnInit {
 
         this.pageInfo.hasNextPage ? current = this.pageInfo.currentPage + 1 : current;
 
-
         delete variableQueries.genres;
 
         if (this.textSearch) {

@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AnimeDetailsComponent } from './anime-details/anime-details.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { AnimeDetailsComponent } from './anime-details/anime-details.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule
 
   ],
   providers: [AnimesService],
