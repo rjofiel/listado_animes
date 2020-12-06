@@ -18,6 +18,10 @@ export class AnimeItemComponent implements OnInit {
       romaji:'',
       userPreferred:'',
     },
+    mediaListEntry: {
+      id:0,
+      status: ''
+    },
     coverImage:{
       large:'',
       medium:'',

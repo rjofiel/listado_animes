@@ -3,6 +3,7 @@
     <h2>Cargando</h2>
   </div>
   <div *ngIf="animeData.id !== 0">
+    <img [src]="animeData.bannerImage" [alt]="animeData.title.userPreferred" width="350"/>
     <img [src]="animeData.coverImage.large" [alt]="animeData.title.romaji" />
     <h1>{{ animeData.title.userPreferred }}</h1>
     <p>{{ animeData.description }}</p>
@@ -20,6 +21,10 @@
           animeData.endDate.year
         }}
       </p>
+      <h2>Studios</h2>
+      <div *ngFor="let studio of animeData.studios.edges">
+        <p>{{studio.node.name}}</p>
+      </div>
     </div>
 
     <div *ngFor="let link of animeData.externalLinks">
@@ -29,24 +34,35 @@
     </div>
 
     <div>
-      <div>
-        <h3></h3>
-      </div>
-      <div>
+      <div *ngFor="let item of animeData.characters.edges">
+        <div>
+          <h2>Character</h2>
+          <h3>{{ item.node.name.full }}</h3>
+          <h4>{{ item.node.name.native }}</h4>
+          <img src="{{ item.node.image.medium }}" [alt]="item.node.name.full" />
+          <p>{{ item.node.description }}</p>
+        </div>
 
+        <div>
+          <h2>Voice Actor</h2>
+          <h3>{{ item.voiceActors[0].name.full }}</h3>
+          <h4>{{ item.voiceActors[0].name.native }}</h4>
+          <img
+            src="{{ item.voiceActors[0].image.medium }}"
+            [alt]="item.voiceActors[0].name.full"
+          />
+        </div>
       </div>
     </div>
 
     <div>
       <h1>Trailer</h1>
-      <div class="mce-iframe">
+      <div>
         <iframe
-
-        width="720"
-        height="420"
-        [src]='safeURL'
-
-        frameborder = "0"
+          width="720"
+          height="420"
+          [src]="safeURL"
+          frameborder="0"
           allowfullscreen
         ></iframe>
       </div>

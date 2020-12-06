@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from "graphql-tag";
@@ -55,6 +56,10 @@ export class AnimesService {
         coverImage {
           large
           medium
+        }
+        mediaListEntry {
+          id
+          status
         }
         description
         season
@@ -124,6 +129,10 @@ export class AnimesService {
               full
               native
             }
+            image {
+              medium
+            }
+            description
           }
           voiceActors(language: $StaffLanguage) {
             name {
@@ -131,7 +140,6 @@ export class AnimesService {
               native
             }
             image {
-              large
               medium
             }
           }
@@ -176,11 +184,12 @@ export class AnimesService {
 }
     `;
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo, private http: HttpClient) { }
 
   searchModal = (id: number[], isAdult: boolean = false) => {
 
     return this.apollo.watchQuery<any>({
+
       query: this.queryModal,
       variables: {
         id_in: id,
@@ -205,6 +214,7 @@ export class AnimesService {
   getFilterAnimeFull = (obj: object) => {
     return this.apollo.watchQuery<any>({
       query: this.filterQueryDescripcion,
+
       variables: obj
     }).valueChanges
   }
@@ -226,4 +236,21 @@ export class AnimesService {
       ...copyObject
     }
   }
+
+  auto = gql`
+  query{
+    Viewer{
+      id
+      name
+    }
+  }`
+
+  getToken = () =>{
+    return this.apollo.watchQuery<any>({
+      query: this.auto
+    }).valueChanges
+
+  }
+
+
 }

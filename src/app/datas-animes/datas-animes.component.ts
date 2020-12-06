@@ -42,6 +42,10 @@ export class DatasAnimesComponent implements OnInit {
       romaji: '',
       userPreferred: '',
     },
+    mediaListEntry: {
+      id: 0,
+      status: ''
+    },
     coverImage: this.imgAnimes,
   }];
   public ListaPagina: PagesAnime = {
@@ -55,6 +59,8 @@ export class DatasAnimesComponent implements OnInit {
   ngOnInit() {
 
     let pagepos = parseInt(this.route.snapshot.params['id']);
+
+    console.log(pagepos)
 
     let variableQueries = {
       page: pagepos

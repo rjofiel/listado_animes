@@ -9,5 +9,9 @@ export interface IAnime {
     romaji:string,
     userPreferred:string,
   },
+  mediaListEntry?: {
+    id:number,
+    status: string
+  },
   coverImage:ImgAnime,
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AnimesService } from '../services/animes.service';
 import { QueryVariables } from '../interfaces/query-variables';
 import { AnimeDetails } from '../interfaces/anime-details';
@@ -10,6 +10,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './anime-details.component.html',
   styleUrls: ['./anime-details.component.css']
 })
+
 export class AnimeDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private animesService: AnimesService, private sanitizer: DomSanitizer) { }
@@ -31,7 +32,7 @@ export class AnimeDetailsComponent implements OnInit {
     characters: {
       edges: [
         {
-          role: "MAIN",
+          role: "",
           node: {
             name: {
               full: "",

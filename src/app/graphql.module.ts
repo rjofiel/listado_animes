@@ -1,14 +1,37 @@
-import {NgModule} from '@angular/core';
-import {APOLLO_OPTIONS} from 'apollo-angular';
-import {ApolloClientOptions, InMemoryCache} from '@apollo/client/core';
-import {HttpLink} from 'apollo-angular/http';
+import { NgModule } from '@angular/core';
+import { APOLLO_OPTIONS } from 'apollo-angular';
+import { ApolloClient, ApolloClientOptions, createHttpLink, InMemoryCache } from '@apollo/client/core';
+import { HttpLink } from 'apollo-angular/http';
+import { setContext } from '@apollo/client/link/context';
 
 const uri = 'https://graphql.anilist.co'; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+
+
+  const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+      return {
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${token}`
+        }
+      }
+    } else {
+      return {
+        headers: {
+          ...headers,
+        }
+      }
+    }
+  })
+
   return {
-    link: httpLink.create({uri}),
-    cache: new InMemoryCache(),
-  };
+    link: authLink.concat(httpLink.create({ uri })),
+    cache: new InMemoryCache()
+  }
+
 }
 
 @NgModule({
@@ -20,4 +43,4 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     },
   ],
 })
-export class GraphQLModule {}
+export class GraphQLModule { }

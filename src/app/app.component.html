@@ -9,9 +9,12 @@
         <li class="nav-item">
           <a class="nav-link" href="#" [routerLink]="['/Busqueda']">Busqueda</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Iniciar sesion</a>
+        <li class="nav-item" *ngIf="!userAuthentificated; else UserActive" >
+          <a class="nav-link" href="#" [routerLink]="['/Login']" >Iniciar sesion</a>
         </li>
+        <ng-template #UserActive>
+          <a class="nav-link" href="#" >{{USER.Viewer.name}}</a>
+        </ng-template>
       </ul>
     </div>
   </nav>

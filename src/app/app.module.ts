@@ -14,6 +14,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AnimeDetailsComponent } from './anime-details/anime-details.component';
 import { CommonModule } from '@angular/common';
+import { AniLoginComponent } from './ani-login/ani-login.component';
 
 
 @NgModule({
@@ -22,17 +23,17 @@ import { CommonModule } from '@angular/common';
     DatasAnimesComponent,
     AnimeItemComponent,
     SearchanimeComponent,
-    AnimeDetailsComponent
+    AnimeDetailsComponent,
+    AniLoginComponent
   ],
   imports: [
-    [BrowserModule, InfiniteScrollModule],
+    [BrowserModule, InfiniteScrollModule ],
     AppRoutingModule,
     GraphQLModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
-
+    CommonModule,
   ],
   providers: [AnimesService],
   bootstrap: [AppComponent]

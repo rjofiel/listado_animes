@@ -150,6 +150,10 @@ export class SearchanimeComponent implements OnInit {
       romaji: '',
       userPreferred: '',
     },
+    mediaListEntry: {
+      id:0,
+      status: ''
+    },
     coverImage: this.imgAnimes,
   }];
   public ListaPagina: PagesAnime = {
@@ -170,6 +174,11 @@ export class SearchanimeComponent implements OnInit {
       romaji: '',
       userPreferred: '',
     },
+    mediaListEntry: {
+      id:0,
+      status: ''
+    },
+
     coverImage: this.imgAnimes,
   }];
 
