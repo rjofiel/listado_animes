@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from "graphql-tag";
@@ -184,7 +183,7 @@ export class AnimesService {
 }
     `;
 
-  constructor(private apollo: Apollo, private http: HttpClient) { }
+  constructor(private apollo: Apollo) { }
 
   searchModal = (id: number[], isAdult: boolean = false) => {
 
@@ -249,7 +248,6 @@ export class AnimesService {
     return this.apollo.watchQuery<any>({
       query: this.auto
     }).valueChanges
-
   }
 
 

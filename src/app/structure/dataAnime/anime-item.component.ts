@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IAnime } from '../interfaces/i-anime';
-import { AnimesService } from '../services/animes.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IAnime } from '../../interfaces/i-anime';
+import { AnimesService } from '../../services/animes.service';
 
 @Component({
   selector: 'app-anime-item',
@@ -28,10 +28,19 @@ export class AnimeItemComponent implements OnInit {
     }
   }
 
+  @Output() selectAnime = new EventEmitter<object>()
+
+
   constructor(private animeService:AnimesService) { }
 
   ngOnInit(): void {
     this.elemAnime = this.animeService.fixDescription(this.elemAnime);
   }
+
+  sendAnime = () => {
+    console.log("Enviendo emiter")
+    this.selectAnime.emit();
+  }
+
 
 }

@@ -1,12 +1,13 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, NgModule, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IAnime } from '../interfaces/i-anime';
-import { ImgAnime } from '../interfaces/img-anime';
-import { PageInfo } from '../interfaces/page-info';
-import { PagesAnime } from '../interfaces/pages-anime';
-import { QueryVariables } from '../interfaces/query-variables';
-import { AnimesService } from '../services/animes.service';
+import { IAnime } from '../../interfaces/i-anime';
+import { ImgAnime } from '../../interfaces/img-anime';
+import { PageInfo } from '../../interfaces/page-info';
+import { PagesAnime } from '../../interfaces/pages-anime';
+import { QueryVariables } from '../../interfaces/query-variables';
+import { AnimesService } from '../../services/animes.service';
+
 
 
 @Component({
@@ -22,6 +23,9 @@ export class DatasAnimesComponent implements OnInit {
   public textSearch: string = '';
 
   constructor(private animeServices: AnimesService, private route: ActivatedRoute, private ruta: Router) { }
+
+  @ViewChild('modalAddAnime') modal !: TemplateRef<any>;
+  @ViewChild('modalOpened', { read: ViewContainerRef }) opened !: ViewContainerRef;
 
 
   public pageInfo: PageInfo = {
@@ -165,4 +169,40 @@ export class DatasAnimesComponent implements OnInit {
     }
 
   }
+
+
+
+  modalOpen: boolean = false
+  selectAnime !: IAnime;
+
+  backdrop: any
+
+  openModal = (e: IAnime) => {
+
+    this.modalOpen = true
+
+    let view = this.modal.createEmbeddedView(null);
+
+    this.opened.insert(view);
+
+    let contenedor = document.getElementById('contenedorAnimes')
+
+    contenedor?.classList.add('fixed-position');
+
+
+
+    this.backdrop = document.createElement('DIV');
+    this.backdrop.className = 'container-modal';
+
+    this.selectAnime = e;
+
+  }
+
+  close = () => {
+    this.opened.clear()
+    let contenedor = document.getElementById('contenedorAnimes');
+    contenedor?.classList.remove('fixed-position')
+    document.body.removeChild(this.backdrop);
+  }
 }
+

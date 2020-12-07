@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid " id="contenedorDetails">
   <div *ngIf="loading">
     <h2>Cargando</h2>
   </div>
@@ -6,6 +6,7 @@
     <img [src]="animeData.bannerImage" [alt]="animeData.title.userPreferred" width="350"/>
     <img [src]="animeData.coverImage.large" [alt]="animeData.title.romaji" />
     <h1>{{ animeData.title.userPreferred }}</h1>
+    <button (click)="openModal(animeData)" >MODAL</button>
     <p>{{ animeData.description }}</p>
 
     <div>
@@ -70,4 +71,9 @@
   </div>
 </div>
 
-<ng-template #details> </ng-template>
+
+<ng-container #modalOpened> </ng-container>
+
+<ng-template  #modalAddAnime>
+ <app-update-anime [dataSelectAnime]="animeData" (finishedModal)="close()" ></app-update-anime>
+</ng-template>

@@ -14,7 +14,7 @@ import { AnimesService } from './services/animes.service';
 export class AppComponent {
   title = 'anime-list';
 
-  @Input() userAuthentificated2 = ''
+  @Input() userAuthentificated1 = ''
 
 
 
@@ -28,11 +28,18 @@ export class AppComponent {
 
   constructor(private router: Router, private animeService: AnimesService){
 
-    this.animeService.getToken().subscribe(({data,loading, error})=>{
-      this.USER = data;
-      console.log(loading);
-      console.log(error);
-    })
+
+    if(this.userAuthentificated){
+      this.animeService.getToken().subscribe(({data,loading, error})=>{
+        this.USER = data;
+        console.log(data);
+
+        console.log(loading);
+        console.log(error);
+      })
+    }
+
+
     }
 
   volver = (e:any) => {

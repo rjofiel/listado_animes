@@ -35,9 +35,4 @@ export class AniLoginComponent implements OnInit {
         }
     })
   }
-
-  test = () => {
-    console.log("test");
-
-  }
 }
