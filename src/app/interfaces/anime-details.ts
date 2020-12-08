@@ -38,7 +38,11 @@ export interface AnimeDetails {
         }
       }]
     }]
-  }
+  },
+  mediaListEntry?:{
+    id: number,
+    status: string,
+  },
   coverImage:{
     large: string,
     medium: string

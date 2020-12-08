@@ -1,5 +1,5 @@
 <div>
-  <a [routerLink]="['/detail/', elemAnime.id]">
+  <a [routerLink]="['/detail/', elemAnime.id]" (click)="clickAnime()">
     <img [src]="elemAnime.coverImage.large" [alt]="elemAnime.title.romaji">
     <h1>{{elemAnime.title.romaji}}</h1>
     <p>{{(elemAnime.description)}}</p>
@@ -8,6 +8,6 @@
 </div>
 
 <div>
-  <button (click)="sendAnime()">Abrir Modal</button>
+  <button (click)="openUpdateAnime()">Abrir Modal</button>
 </div>
 

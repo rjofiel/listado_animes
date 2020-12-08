@@ -32,13 +32,48 @@ export class AnimeUpdateService {
       status
     }
   }`
+
+  getList = gql`
+    mutation ($id: Int, $status: MediaListStatus){
+      SaveMediaListEntry(id: $id, status: $status, ){
+        media{
+          title{
+            romaji
+          }
+        }
+        startedAt{
+          year
+          month
+          day
+        }
+        completedAt{
+          year
+          month
+          day
+        }
+        notes
+        progress
+        status
+      }
+    }
+  `;
+
+  deleteListMedia =  gql`
+  mutation ($id: Int){
+      DeleteMediaListEntry (id:$id){
+        deleted
+      }
+    }
+  `
+
+
   getUserViewer = () => {
     return this.apollo.watchQuery<any>({
       query: this.userViewer
     })
   }
 
-  addAnimeOnUser = (idMedia: number = 1, statusAnime: string = "CURRENT") => {
+  addAnimeOnUser = (idMedia: number, statusAnime: string = "CURRENT") => {
 
     return this.apollo.mutate({
       mutation: this.addAnime,
@@ -56,6 +91,24 @@ export class AnimeUpdateService {
       variables: {
         id: idList,
         status: newStatusAnime
+      }
+    })
+  }
+
+  getEntryMedia = (idList: number) => {
+    return this.apollo.mutate({
+      mutation: this.getList,
+      variables: {
+        id: idList
+      }
+    })
+  }
+
+  deleteEntryMedia = (idList: number) => {
+    return this.apollo.mutate({
+      mutation: this.deleteListMedia,
+      variables: {
+        id: idList
       }
     })
   }

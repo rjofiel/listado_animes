@@ -36,13 +36,32 @@
             <label for="notas">Notas</label>
             <input type="text" name="notas" />
             <button class="btn btn-danger" (click)="closeModal()">Cancel</button>
+
             <button
               class="btn btn-primary"
-              (click)="eject($event); closeModal()"
+              (click)="updateMedia($event); closeModal()"
+              *ngIf="idListState; else NoIdEntry"
             >
-              SEND
+              Update
             </button>
+
+            <ng-template #NoIdEntry>
+              <button
+              class="btn btn-primary"
+              (click)="createMedia($event); closeModal()"
+            >
+              Create
+            </button>
+
+            </ng-template>
+
           </form>
+          <button
+              class="btn btn-light"
+              (click)="deleteMedia($event)"
+            >
+              Delete
+            </button>
         </div>
 
         <div>

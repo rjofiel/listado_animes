@@ -18,7 +18,7 @@
     <app-anime-item
       *ngFor="let anime of Animes"
       [elemAnime]="anime"
-      (selectAnime)="openModal(anime)"
+      (animeModalSelect)="openModal(anime)"
     ></app-anime-item>
     <div>
       <p href="#">

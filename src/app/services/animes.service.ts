@@ -29,6 +29,10 @@ export class AnimesService {
           large
           medium
         }
+      mediaListEntry {
+        id
+        status
+      }
         season
         type
         averageScore
@@ -118,7 +122,10 @@ export class AnimesService {
         timeUntilAiring
         episode
       }
-
+      mediaListEntry {
+        id
+        status
+      }
       characters {
         edges {
           role
@@ -225,7 +232,7 @@ export class AnimesService {
     }).valueChanges
   }
 
-  fixDescription(obj: AnimeDetails | IAnime){
+  fixDescription(obj: AnimeDetails | IAnime) {
     let copyObject: AnimeDetails | IAnime = {
       ...obj
     }
@@ -244,7 +251,7 @@ export class AnimesService {
     }
   }`
 
-  getToken = () =>{
+  getToken = () => {
     return this.apollo.watchQuery<any>({
       query: this.auto
     }).valueChanges

@@ -29,18 +29,24 @@ export class AnimeItemComponent implements OnInit {
   }
 
   @Output() selectAnime = new EventEmitter<object>()
+  @Output() animeModalSelect = new EventEmitter<object>()
+
 
 
   constructor(private animeService:AnimesService) { }
 
   ngOnInit(): void {
+
     this.elemAnime = this.animeService.fixDescription(this.elemAnime);
+
   }
 
-  sendAnime = () => {
-    console.log("Enviendo emiter")
+  openUpdateAnime = () => {
+    this.animeModalSelect.emit(this.elemAnime);
+  }
+
+  clickAnime = () => {
     this.selectAnime.emit();
   }
-
 
 }

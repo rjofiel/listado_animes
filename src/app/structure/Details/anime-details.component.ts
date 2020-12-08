@@ -14,7 +14,7 @@ import { IAnime } from 'src/app/interfaces/i-anime';
 
 export class AnimeDetailsComponent implements OnInit {
 
-  selectAnime !: IAnime;
+  selectAnime !: IAnime ;
 
   constructor(private route: ActivatedRoute, private animesService: AnimesService, private sanitizer: DomSanitizer) { }
 
@@ -116,7 +116,10 @@ export class AnimeDetailsComponent implements OnInit {
   urlTrailer = 'https://www.youtube.com/embed/'
 
   ngOnInit(): void {
+
+
     const idAnime: number = parseInt(this.route.snapshot.params['id']);
+
     let variableQueries: QueryVariables = {
       page: -1,
       type: "ANIME",
@@ -131,18 +134,17 @@ export class AnimeDetailsComponent implements OnInit {
         delete variableQueries[key];
       }
     }
+
     setTimeout(() => {
       this.animesService.getDetailAnime(variableQueries).subscribe(({ data, loading, error }) => {
         this.animeData = this.animesService.fixDescription(data.Media as IAnime) as AnimeDetails,
           this.loading = loading,
           this.error = error
-
-
-
-        this.loadTrailer();
-
+          this.loadTrailer();
       }).unsubscribe
     }, 200)
+
+
   }
 
   loadTrailer() {
@@ -155,7 +157,7 @@ export class AnimeDetailsComponent implements OnInit {
   }
 
 
-  backdrop:any
+  backdrop: any
 
   openModal = (e: IAnime) => {
 
@@ -165,16 +167,13 @@ export class AnimeDetailsComponent implements OnInit {
 
     let contenedor = document.getElementById('contenedorDetails')
 
-    console.log(contenedor)
-
     contenedor?.classList.add('fixed-position');
-
-
 
     this.backdrop = document.createElement('DIV');
     this.backdrop.className = 'container-modal';
 
     this.selectAnime = e;
+    document.body.appendChild(this.backdrop);
 
   }
 

@@ -9,126 +9,19 @@
   [fromRoot]="true"
   (scrolled)="filterNextPage()"
 >
-  <form [formGroup]="animeBrowse" novalidate>
-    <div class="form-group">
-      <label class="col-form-label" for="buscadorAvanzado">Busqueda</label>
-      <input
-        class="form-control"
-        formControlName="searchTextAdvanced"
-        type="search"
-        name="buscadorAvanzado"
-        id="buscadorAvanzado"
-        [(ngModel)]="textSearch"
-        (keyup)="updatePage()"
-      />
-      <label class="col-form-label" for="isAdult"> Contenido Adulto </label>
-      <select
-        class="form-control-sm"
-        formControlName="isAdult"
-        name="isAdult"
-        id="isAdult"
-      >
-        <option value="{{ false }}" selected>No</option>
-        <option value="{{ true }}">Si</option>
-      </select>
+  <app-filters-anime
+    [initGenres]="generos"
+    (filter)="statusFilters($event)"
+    (convertImage)="searchLucky($event)"
+  ></app-filters-anime>
 
-      <button
-        class="btn btn-outline-primary dropdown-btn"
-        (click)="togg($event)"
-      >
-        Genero
-      </button>
-
-      <label class="form-label" for="year">Año</label>
-
-      <select
-        class="form-control-sm"
-        name="year"
-        id="year"
-        (change)="changeYearAnime($event); updatePage()"
-        formControlName="yearAnime"
-      >
-        <option value="" selected disabled>Any</option>
-        <option *ngFor="let yearSeason of years" [ngValue]="yearSeason">
-          {{ yearSeason }}
-        </option>
-      </select>
-
-      <label class="form-group" for="season">Season</label>
-      <select
-        class="form-control-sm"
-        name="season"
-        id="season"
-        (change)="changeSeason($event); updatePage()"
-        formControlName="season"
-      >
-        <option value="" selected disabled>Select a season</option>
-        <option *ngFor="let estacion of temporada" [ngValue]="estacion">
-          {{ estacion }}
-        </option>
-      </select>
-
-      <label for="status">Status</label>
-      <select
-        class="form-control-sm"
-        name="status"
-        id="status"
-        (change)="changeStatus($event);updatePage()"
-        formControlName="status"
-      >
-        <option value="" selected disabled>Select a status</option>
-        <option *ngFor="let stats of estado" [ngValue]="stats">
-          {{ stats }}
-        </option>
-      </select>
-
-      <label for="source">Source</label>
-      <select
-        class="form-control-sm"
-        name="source"
-        id="source"
-        (change)="changeSource($event); updatePage()"
-        formControlName="source"
-      >
-        <option value="" selected disabled>Select a source</option>
-        <option *ngFor="let source of origen" [ngValue]="source">
-          {{ source }}
-        </option>
-      </select>
-
-      <div *ngIf="dropmenu.genero">
-        <div class="form-check-inline form-group" *ngFor="let gen of generos">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            name="{{ gen }}"
-            id="{{ gen }}"
-            [value]="gen"
-            (change)="changeGenero($event); updatePage()"
-          />
-          <label class="form-check-label" for="{{ gen }}">{{ gen }}</label>
-        </div>
-      </div>
-
-      <input
-        type="file"
-        class="form-control-file"
-        name="searchImage"
-        id="searchImage"
-        #imageSearch
-        (change)="loadImage(imageSearch); updatePage()"
-        accept="image/*"
-      />
-
-      <div *ngIf="image">
-        <img [src]="image" alt="" width="500" height="400" />
-      </div>
-    </div>
-  </form>
-  <button class="btn btn-primary" (click)="showModal()">Prueba de Modal</button>
   <div *ngIf="loading">Loading...</div>
   <div *ngIf="ListaPagina && Animes.length; else noExist">
-    <app-anime-item *ngFor="let anime of Animes" [elemAnime]="anime">
+    <app-anime-item
+      *ngFor="let anime of Animes"
+      [elemAnime]="anime"
+      (animeModalSelect)="openUpdateModal($event)"
+    >
     </app-anime-item>
   </div>
 
@@ -140,38 +33,16 @@
 <ng-container #vc> </ng-container>
 
 <ng-template #ModalSearch>
-  <div class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Posibles coincidencias</h4>
-          <button
-            type="button"
-            class="close"
-            aria-label="Close"
-            (click)="closeModal()"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div *ngIf="imageFound; else notFound">
-            <app-anime-item
-              *ngFor="let anime of AnimesModal"
-              [elemAnime]="anime"
-            >
-            </app-anime-item>
-          </div>
-          <ng-template #notFound>
-            <h1>No se encontraron coincidencias</h1>
-          </ng-template>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-danger" type="button" (click)="closeModal()">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-potential-results
+    [arrayAnimes]="arrayId"
+    (finishedModal)="closeModal()"
+    (selected)="closeModal()"
+  ></app-potential-results>
+</ng-template>
+
+<ng-template #ModalUpdate>
+  <app-update-anime
+    [dataSelectAnime]="dataModalUpdate"
+    (finishedModal)="closeModal()"
+  ></app-update-anime>
 </ng-template>
