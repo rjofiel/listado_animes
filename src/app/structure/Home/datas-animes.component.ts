@@ -1,10 +1,7 @@
 
-import { Component, ElementRef, NgModule, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IAnime } from '../../interfaces/i-anime';
-import { ImgAnime } from '../../interfaces/img-anime';
-import { PageInfo } from '../../interfaces/page-info';
-import { PagesAnime } from '../../interfaces/pages-anime';
+import { IAnime, ImgAnime, PageInfo, PagesAnime } from '../../interfaces/pages-anime';
 import { QueryVariables } from '../../interfaces/query-variables';
 import { AnimesService } from '../../services/animes.service';
 
@@ -28,43 +25,15 @@ export class DatasAnimesComponent implements OnInit {
   @ViewChild('modalOpened', { read: ViewContainerRef }) opened !: ViewContainerRef;
 
 
-  public pageInfo: PageInfo = {
-    currentPage: 1,
-    lastPage: 2,
-    hasNextPage: true
-  };
-  public imgAnimes: ImgAnime = {
-    large: '',
-    medium: '',
-  };
-  public Animes: IAnime[] = [{
-    id: 0,
-    status: '',
-    episodes: 0,
-    description: '',
-    title: {
-      romaji: '',
-      userPreferred: '',
-    },
-    mediaListEntry: {
-      id: 0,
-      status: ''
-    },
-    coverImage: this.imgAnimes,
-  }];
-  public ListaPagina: PagesAnime = {
-    Page: {
-      media: this.Animes,
-      pageInfo: this.pageInfo
-    }
-  };
+  public pageInfo!: PageInfo;
+  public imgAnimes!: ImgAnime;
+  public Animes!: IAnime[]
+  public ListaPagina!: PagesAnime;
 
 
   ngOnInit() {
 
     let pagepos = parseInt(this.route.snapshot.params['id']);
-
-    console.log(pagepos)
 
     let variableQueries = {
       page: pagepos
@@ -189,10 +158,10 @@ export class DatasAnimesComponent implements OnInit {
 
     contenedor?.classList.add('fixed-position');
 
-
-
     this.backdrop = document.createElement('DIV');
     this.backdrop.className = 'container-modal';
+
+    document.body.appendChild(this.backdrop);
 
     this.selectAnime = e;
 

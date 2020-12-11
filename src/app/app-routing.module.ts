@@ -6,14 +6,14 @@ import { AnimeDetailsComponent } from './structure/Details/anime-details.compone
 import { AniLoginComponent } from './structure/Auth/ani-login.component';
 
 import { SearchanimeComponent } from './searchanime/searchanime.component';
-import { UpdateAnimeComponent } from './update-anime/update-anime.component';
+import { ContactComponent } from './structure/contact/contact.component';
 
 const routes: Routes = [
   { path: 'ListadoAnimes/page/:id', component: DatasAnimesComponent },
   { path: 'detail/:id', component: AnimeDetailsComponent },
   { path: 'Busqueda', component: SearchanimeComponent },
   { path: 'Login', component: AniLoginComponent },
-  { path: 'Modal', component: UpdateAnimeComponent },
+  { path: 'Contact', component: ContactComponent },
   { path: '', redirectTo: '/ListadoAnimes/page/1', pathMatch:'full'},
 ];
 

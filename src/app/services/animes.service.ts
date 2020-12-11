@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from "graphql-tag";
 import { AnimeDetails } from '../interfaces/anime-details';
-import { IAnime } from '../interfaces/i-anime';
+import { IAnime } from '../interfaces/pages-anime';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,7 @@ export class AnimesService {
       media(id: $id, type: $type, id_in:$id_in ,season: $season, format_in: $format, status: $status, countryOfOrigin: $countryOfOrigin, source: $source, search: $search, onList: $onList, startDate_like: $year, startDate_lesser: $yearLesser, startDate_greater: $yearGreater, episodes_lesser: $episodeLesser, episodes_greater: $episodeGreater, duration_lesser: $durationLesser, duration_greater: $durationGreater, chapters_lesser: $chapterLesser, chapters_greater: $chapterGreater, volumes_lesser: $volumeLesser, volumes_greater: $volumeGreater, licensedBy_in: $licensedBy, genre_in: $genres, genre_not_in: $excludedGenres, tag_in: $tags, tag_not_in: $excludedTags, minimumTagRank: $minimumTagRank, sort: $sort, isAdult: $isAdult) {
         id
         status
+        episodes
         title {
           romaji
           userPreferred
@@ -29,6 +30,7 @@ export class AnimesService {
           large
           medium
         }
+
       mediaListEntry {
         id
         status
@@ -60,6 +62,7 @@ export class AnimesService {
           large
           medium
         }
+        episodes
         mediaListEntry {
           id
           status

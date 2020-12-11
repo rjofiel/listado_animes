@@ -7,12 +7,13 @@
       type="search"
       name="buscadorAvanzado"
       id="buscadorAvanzado"
-      [(ngModel)]="filterSearch"
       (keyup)="reviseVariables()"
     />
+    <div *ngIf=""></div>
     <label class="col-form-label" for="isAdult"> Contenido Adulto </label>
     <select
       class="form-control-sm"
+      (change)="selectAdult($event); reviseVariables()"
       formControlName="isAdult"
       name="isAdult"
       id="isAdult"
@@ -34,7 +35,7 @@
       class="form-control-sm"
       name="year"
       id="year"
-      (change)="selectDateAnime($event)"
+      (change)="selectDateAnime($event); ; reviseVariables()"
       formControlName="dateAnime"
     >
       <option value="" selected disabled>Any</option>
@@ -48,7 +49,7 @@
       class="form-control-sm"
       name="season"
       id="season"
-      (change)="selectSeason($event)"
+      (change)="selectSeason($event); ; reviseVariables()"
       formControlName="season"
     >
       <option value="" selected disabled>Select a season</option>
@@ -62,7 +63,7 @@
       class="form-control-sm"
       name="status"
       id="status"
-      (change)="selectStatus($event)"
+      (change)="selectStatus($event); reviseVariables()"
       formControlName="status"
     >
       <option value="" selected disabled>Select a status</option>
@@ -76,7 +77,7 @@
       class="form-control-sm"
       name="source"
       id="source"
-      (change)="selectSource($event)"
+      (change)="selectSource($event); reviseVariables()"
       formControlName="sourceAnime"
     >
       <option value="" selected disabled>Select a source</option>
@@ -86,16 +87,15 @@
     </select>
 
     <div *ngIf="genre">
-      <div class="form-check-inline form-group" *ngFor="let gen of initGenres">
+      <div class="form-check-inline form-group" *ngFor="let genre of initGenres">
         <input
           class="form-check-input"
           type="checkbox"
-          name="{{ gen }}"
-          id="{{ gen }}"
-          [value]="gen"
-          (change)="selectsGenres($event)"
+          [name]="genre"
+          [value]="genre"
+          (change)="selectsGenres($event); reviseVariables()"
         />
-        <label class="form-check-label" for="{{ gen }}">{{ gen }}</label>
+        <label class="form-check-label" for="{{ genre }}">{{ genre }}</label>
       </div>
     </div>
 

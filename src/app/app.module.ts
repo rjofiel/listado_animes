@@ -20,6 +20,7 @@ import { AniLoginComponent } from './structure/Auth/ani-login.component';
 import { UpdateAnimeComponent } from './update-anime/update-anime.component';
 import { FiltersAnimeComponent } from './structure/filters-anime/filters-anime.component';
 import { PotentialResultsComponent } from './potential-results/potential-results.component';
+import { ContactComponent } from './structure/contact/contact.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { PotentialResultsComponent } from './potential-results/potential-results
     UpdateAnimeComponent,
     FiltersAnimeComponent,
     PotentialResultsComponent,
+    ContactComponent,
   ],
   imports: [
     [BrowserModule, InfiniteScrollModule ],

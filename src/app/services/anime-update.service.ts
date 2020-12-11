@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql, Mutation } from 'apollo-angular';
+import { fuzzyDate } from '../interfaces/anime-details';
 
 @Injectable({
   providedIn: 'root'
@@ -18,45 +19,49 @@ export class AnimeUpdateService {
   }`
 
   addAnime = gql`
-  mutation ($mediaId: Int, $status: MediaListStatus){
-    SaveMediaListEntry(mediaId: $mediaId, status: $status){
+  mutation ($mediaId: Int, $status: MediaListStatus, $progress:Int, $notes:String, $startedAt:FuzzyDateInput, $completedAt:FuzzyDateInput){
+    SaveMediaListEntry(mediaId: $mediaId, status: $status, progress:$progress, notes:$notes, startedAt:$startedAt, completedAt: $completedAt){
       id
       status
     }
   }`
 
   updateList = gql`
-  mutation ($id: Int $status: MediaListStatus){
-    SaveMediaListEntry(id: $id, status: $status){
+  mutation ($id: Int, $status: MediaListStatus, $progress:Int, $notes:String, $startedAt:FuzzyDateInput, $completedAt:FuzzyDateInput){
+    SaveMediaListEntry(id: $id, status: $status, progress:$progress, notes:$notes, startedAt:$startedAt, completedAt: $completedAt){
       id
-      status
     }
   }`
 
   getList = gql`
-    mutation ($id: Int, $status: MediaListStatus){
-      SaveMediaListEntry(id: $id, status: $status, ){
-        media{
-          title{
-            romaji
-          }
+  query ($id: Int){
+    MediaList (id:$id){
+      media{
+        title{
+          romaji
         }
-        startedAt{
-          year
-          month
-          day
-        }
-        completedAt{
-          year
-          month
-          day
-        }
-        notes
-        progress
-        status
+      }
+      id
+      user{
+        name
+      }
+      status
+      progress
+      notes
+      startedAt{
+        day
+        month
+        year
+      }
+      completedAt{
+        day
+        month
+        year
       }
     }
+  }
   `;
+
 
   deleteListMedia =  gql`
   mutation ($id: Int){
@@ -73,35 +78,59 @@ export class AnimeUpdateService {
     })
   }
 
-  addAnimeOnUser = (idMedia: number, statusAnime: string = "CURRENT") => {
+  addAnimeOnUser = (idMedia: number, newStatusAnime:string, progress: number, notes: string, startedAt: fuzzyDate, completedAt: fuzzyDate ) => {
 
     return this.apollo.mutate({
       mutation: this.addAnime,
       variables: {
         mediaId: idMedia,
-        status: statusAnime
+        status: newStatusAnime,
+        progress: progress,
+        notes: notes,
+        startedAt: {
+          day: startedAt.day,
+          month: startedAt.month,
+          year: startedAt.year
+        },
+        completedAt:  {
+          day: completedAt.day,
+          month: completedAt.month,
+          year: completedAt.year
+        },
       }
     })
   }
 
+  updateListId = (idList:number, newStatusAnime:string, progress: number, notes: string, startedAt: fuzzyDate, completedAt: fuzzyDate  ) => {
 
-  updataListId = (idList:number, newStatusAnime:string) => {
     return this.apollo.mutate({
       mutation: this.updateList,
       variables: {
         id: idList,
-        status: newStatusAnime
+        status: newStatusAnime,
+        progress: progress,
+        notes: notes,
+        startedAt: {
+          day: startedAt.day,
+          month: startedAt.month,
+          year: startedAt.year
+        },
+        completedAt:  {
+          day: completedAt.day,
+          month: completedAt.month,
+          year: completedAt.year
+        },
       }
     })
   }
 
   getEntryMedia = (idList: number) => {
-    return this.apollo.mutate({
-      mutation: this.getList,
+    return this.apollo.watchQuery<any>({
+      query: this.getList,
       variables: {
         id: idList
       }
-    })
+    }).valueChanges
   }
 
   deleteEntryMedia = (idList: number) => {

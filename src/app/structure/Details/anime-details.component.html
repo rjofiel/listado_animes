@@ -1,8 +1,10 @@
 <div class="container-fluid " id="contenedorDetails">
+
   <div *ngIf="loading">
     <h2>Cargando</h2>
   </div>
-  <div *ngIf="animeData.id !== 0">
+
+  <div *ngIf="!loading">
     <img [src]="animeData.bannerImage" [alt]="animeData.title.userPreferred" width="350"/>
     <img [src]="animeData.coverImage.large" [alt]="animeData.title.romaji" />
     <h1>{{ animeData.title.userPreferred }}</h1>
@@ -35,28 +37,28 @@
     </div>
 
     <div>
-      <div *ngFor="let item of animeData.characters.edges">
+      <div *ngFor="let actor of castAnime">
         <div>
           <h2>Character</h2>
-          <h3>{{ item.node.name.full }}</h3>
-          <h4>{{ item.node.name.native }}</h4>
-          <img src="{{ item.node.image.medium }}" [alt]="item.node.name.full" />
-          <p>{{ item.node.description }}</p>
+          <h3>{{ actor.node.name.full }}</h3>
+          <h4>{{ actor.node.name.native }}</h4>
+          <img src="{{ actor.node.image.medium }}" [alt]="actor.node.name.full" />
+          <p>{{ actor.node.description }}</p>
         </div>
 
         <div>
           <h2>Voice Actor</h2>
-          <h3>{{ item.voiceActors[0].name.full }}</h3>
-          <h4>{{ item.voiceActors[0].name.native }}</h4>
+          <h3>{{ actor.voiceActors[0].name.full }}</h3>
+          <h4>{{ actor.voiceActors[0].name.native }}</h4>
           <img
-            src="{{ item.voiceActors[0].image.medium }}"
-            [alt]="item.voiceActors[0].name.full"
+            src="{{ actor.voiceActors[0].image.medium }}"
+            [alt]="actor.voiceActors[0].name.full"
           />
         </div>
       </div>
     </div>
 
-    <div>
+    <div *ngIf="animeData.trailer">
       <h1>Trailer</h1>
       <div>
         <iframe
@@ -68,6 +70,7 @@
         ></iframe>
       </div>
     </div>
+
   </div>
 </div>
 

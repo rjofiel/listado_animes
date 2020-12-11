@@ -1,3 +1,5 @@
+import { ImgAnime } from './pages-anime';
+
 export interface AnimeDetails {
   id:number,
   title: {
@@ -16,37 +18,13 @@ export interface AnimeDetails {
   isAdult: boolean,
   averageScore: number,
   characters: {
-    edges: [{
-      role: string,
-      node: {
-        name: {
-          full: string,
-          native: string,
-        },
-        image:{
-          medium:string
-        },
-        description: string
-      },
-      voiceActors: [{
-        name:{
-          full: string,
-          native: string
-        },
-        image:{
-          medium:string
-        }
-      }]
-    }]
+    edges: infoCast[]
   },
   mediaListEntry?:{
     id: number,
     status: string,
   },
-  coverImage:{
-    large: string,
-    medium: string
-  },
+  coverImage:ImgAnime,
   externalLinks: [{
     id: number,
     url: string,
@@ -57,16 +35,8 @@ export interface AnimeDetails {
     site: string,
     thumbnail: string
   },
-  startDate:{
-    year: number,
-    month: number,
-    day: number
-  }
-  endDate:{
-    year: number,
-    month: number,
-    day: number
-  }
+  startDate:fuzzyDate
+  endDate:fuzzyDate,
   nextAiringEpisode: {
     airingAt:number,
     timeUntilAiring:number,
@@ -80,4 +50,38 @@ export interface AnimeDetails {
       }
     }]
   }
+}
+
+export interface fuzzyDate {
+  year: number,
+  month: number,
+  day: number
+}
+
+
+export interface infoCast {
+  role: string,
+  node: character,
+  voiceActors: voiceActor[]
+}
+
+export interface character {
+    name: {
+      full: string,
+      native: string,
+    },
+    image:{
+      medium:string
+    },
+    description: string
+}
+
+export interface voiceActor {
+    name:{
+      full: string,
+      native: string
+    },
+    image:{
+      medium:string
+    }
 }

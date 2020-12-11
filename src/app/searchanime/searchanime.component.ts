@@ -1,11 +1,7 @@
 import { jsDocComment } from '@angular/compiler';
-import { Component, EventEmitter, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Generos } from '../interfaces/generos';
-import { IAnime } from '../interfaces/i-anime';
-import { ImgAnime } from '../interfaces/img-anime';
-import { PageInfo } from '../interfaces/page-info';
-import { PagesAnime } from '../interfaces/pages-anime';
+import { IAnime, ImgAnime, PageInfo, PagesAnime } from '../interfaces/pages-anime';
 import { QueryVariables } from '../interfaces/query-variables';
 import { SearchImage } from '../interfaces/search-image';
 import { AnimesService } from '../services/animes.service';
@@ -35,60 +31,15 @@ export class SearchanimeComponent implements OnInit {
 
   variablesQuery!: QueryVariables;
 
+  constructor(private animeService: AnimesService, private searchImage: SearchImageService) {}
 
-  constructor(private animeService: AnimesService, private searchImage: SearchImageService) {
-
-  }
-
-
-  public pageInfo: PageInfo = {
-    currentPage: 1,
-    lastPage: 2,
-    hasNextPage: true
-  };
-  public imgAnimes: ImgAnime = {
-    large: '',
-    medium: '',
-  }
-  public Animes: IAnime[] = [{
-    id: 0,
-    status: '',
-    episodes: 0,
-    title: {
-      romaji: '',
-      userPreferred: '',
-    },
-    mediaListEntry: {
-      id:0,
-      status: ''
-    },
-    coverImage: this.imgAnimes,
-  }];
-  public ListaPagina: PagesAnime = {
-    Page: {
-      media: this.Animes,
-      pageInfo: this.pageInfo
-    }
-  };
+  public pageInfo!: PageInfo;
+  public imgAnimes!: ImgAnime;
+  public Animes!: IAnime[];
+  public ListaPagina!: PagesAnime;
 
   public imageFound!: SearchImage[];
-
-  public AnimesModal: IAnime[] = [{
-    id: 0,
-    status: '',
-    episodes: 0,
-    description: '',
-    title: {
-      romaji: '',
-      userPreferred: '',
-    },
-    mediaListEntry: {
-      id:0,
-      status: ''
-    },
-
-    coverImage: this.imgAnimes,
-  }];
+  public AnimesModal!: IAnime[];
 
   ngOnInit(): void {
 
@@ -162,6 +113,9 @@ export class SearchanimeComponent implements OnInit {
     document.body.appendChild(this.backdrop)
 
     this.dataModalUpdate = e;
+
+
+
 
   }
 

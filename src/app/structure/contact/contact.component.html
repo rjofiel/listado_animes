@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <form [formGroup]="formContact" (ngSubmit)="sendForm()">
+    <div>
+      <label for="email">E-mail</label>
+      <input type="email" formControlName="email" />
+    </div>
+
+    <div>
+      <label for="username">Username</label>
+      <input type="text" name="username" formControlName="username" />
+    </div>
+
+    <div>
+      <label for="subject">Subject</label>
+      <select
+        name="subject"
+        formControlName="issues"
+        (change)="changeSubject($event)"
+      >
+        <option value="" selected disabled>----</option>
+        <option value="{{ issue }}" *ngFor="let issue of subject">
+          {{ issue }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="anime">Name Anime</label>
+      <input name="anime" formControlName="nameAnime" />
+    </div>
+
+    <div>
+      <label for="messaje">Messaje</label>
+      <textarea name="messaje" formControlName="messaje"></textarea>
+    </div>
+
+    <div>
+      <button type="submit" [disabled]="!formContact.valid">Enviar</button>
+    </div>
+  </form>
+</div>

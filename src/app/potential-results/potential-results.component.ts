@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IAnime } from '../interfaces/i-anime';
+import { IAnime } from '../interfaces/pages-anime';
 import { AnimesService } from '../services/animes.service';
 
 @Component({

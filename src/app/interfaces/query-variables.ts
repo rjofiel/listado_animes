@@ -11,3 +11,8 @@ export interface QueryVariables {
   id_in?: number[],
   [key: string]:string | undefined | boolean | string[] | number | number[]
 }
+
+export interface UserAuthenticated {
+  id: number,
+  name: string
+}

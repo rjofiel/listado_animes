@@ -1,10 +1,10 @@
 import { Component, NgModule, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AnimesService } from '../../services/animes.service';
 import { QueryVariables } from '../../interfaces/query-variables';
-import { AnimeDetails } from '../../interfaces/anime-details';
+import { AnimeDetails, infoCast,  } from '../../interfaces/anime-details';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { IAnime } from 'src/app/interfaces/i-anime';
+import { IAnime } from 'src/app/interfaces/pages-anime';
 
 @Component({
   selector: 'app-anime-details',
@@ -24,94 +24,10 @@ export class AnimeDetailsComponent implements OnInit {
   loading: boolean = true;
   error: any;
 
-  public safeURL: SafeResourceUrl | undefined;
+  public safeURL!: SafeResourceUrl;
 
-  animeData: AnimeDetails = {
-    id: 0,
-    title: {
-      romaji: '',
-      userPreferred: '',
-    },
-    status: '',
-    episodes: 0,
-    description: '',
-    characters: {
-      edges: [
-        {
-          role: "",
-          node: {
-            name: {
-              full: "",
-              native: ""
-            },
-            image: {
-              medium: ""
-            },
-            description: ""
-          },
-          voiceActors: [
-            {
-              name: {
-                full: "",
-                native: ""
-              },
-              image: {
-                medium: ""
-              }
-            }
-          ]
-        }
-      ]
-    },
-    coverImage: {
-      large: '',
-      medium: '',
-    },
-    startDate: {
-      year: 0,
-      month: 0,
-      day: 0
-    },
-    endDate: {
-      year: 0,
-      month: 0,
-      day: 0
-    },
-    externalLinks: [{
-      id: 0,
-      url: "",
-      site: ""
-    }
-    ],
-    trailer: {
-      id: "",
-      site: "",
-      thumbnail: ""
-    },
-    bannerImage: "",
-    season: "",
-    type: "",
-    format: "",
-    duration: 0,
-    genres: [],
-    isAdult: false,
-    averageScore: 80,
-    nextAiringEpisode: {
-      airingAt: 0,
-      episode: 0,
-      timeUntilAiring: 0,
-    },
-    studios: {
-      edges: [
-        {
-          isMain: true,
-          node: {
-            name: ""
-          }
-        }
-      ]
-    }
-  };
+  animeData!: AnimeDetails;
+  castAnime !: infoCast[];
 
   urlTrailer = 'https://www.youtube.com/embed/'
 
@@ -137,10 +53,14 @@ export class AnimeDetailsComponent implements OnInit {
 
     setTimeout(() => {
       this.animesService.getDetailAnime(variableQueries).subscribe(({ data, loading, error }) => {
-        this.animeData = this.animesService.fixDescription(data.Media as IAnime) as AnimeDetails,
-          this.loading = loading,
-          this.error = error
-          this.loadTrailer();
+        this.animeData = this.animesService.fixDescription(data.Media) as AnimeDetails,
+        this.castAnime = this.animeData.characters.edges;
+        this.loading = loading,
+        this.error = error
+
+          if(this.animeData.trailer){
+            this.loadTrailer();
+          }
       }).unsubscribe
     }, 200)
 
@@ -159,7 +79,7 @@ export class AnimeDetailsComponent implements OnInit {
 
   backdrop: any
 
-  openModal = (e: IAnime) => {
+  openModal = (e: IAnime | AnimeDetails) => {
 
     let view = this.modal.createEmbeddedView(null);
 

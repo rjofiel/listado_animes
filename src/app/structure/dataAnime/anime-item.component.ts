@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IAnime } from '../../interfaces/i-anime';
+import { IAnime } from 'src/app/interfaces/pages-anime';
 import { AnimesService } from '../../services/animes.service';
 
 @Component({
@@ -9,24 +9,7 @@ import { AnimesService } from '../../services/animes.service';
 })
 export class AnimeItemComponent implements OnInit {
 
-  @Input() elemAnime:IAnime = {
-    id:0,
-    status: '',
-    episodes:0,
-    description:'',
-    title: {
-      romaji:'',
-      userPreferred:'',
-    },
-    mediaListEntry: {
-      id:0,
-      status: ''
-    },
-    coverImage:{
-      large:'',
-      medium:'',
-    }
-  }
+  @Input() elemAnime!:IAnime
 
   @Output() selectAnime = new EventEmitter<object>()
   @Output() animeModalSelect = new EventEmitter<object>()

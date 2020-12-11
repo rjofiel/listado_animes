@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Generos } from 'src/app/interfaces/generos';
 import { QueryVariables } from 'src/app/interfaces/query-variables';
 
@@ -9,7 +9,6 @@ import { QueryVariables } from 'src/app/interfaces/query-variables';
   styleUrls: ['./filters-anime.component.css']
 })
 export class FiltersAnimeComponent implements OnInit {
-
 
   filterSearch = ''
 
@@ -23,13 +22,15 @@ export class FiltersAnimeComponent implements OnInit {
   formSearch!: FormGroup
   yearOptions: number[] = []
 
+  loadedImage!: string
+
   initSeason: string[] = ['Winter', 'Spring', 'Summer', 'Fall'];
   initStatus: string[] = ['Airing', 'Finished', 'Not yet Aired', 'Cancelled'];
   initSource: string[] = ['Original', 'Manga', 'Light Novel', 'Novel', 'Anime', 'Visual Novel', 'Video Game', 'Doujinshi', 'Other'];
 
   createForm = () => {
     return new FormGroup({
-      inputSearch: new FormControl(''),
+      inputSearch: new FormControl('', Validators.minLength(3)),
       isAdult: new FormControl(false),
       genres: new FormArray([]),
       dateAnime: new FormControl(''),
@@ -40,26 +41,24 @@ export class FiltersAnimeComponent implements OnInit {
     })
   }
 
-  get inputSearch() {
-    return this.formSearch.get('inputSearch')
-  }
-  get isAdult() {
-    return this.formSearch.get('isAdult')
-  }
-  get genres() {
-    return this.formSearch.get('genres')
-  }
-  get dateAnime() {
-    return this.formSearch.get('dateAnime')
-  }
-  get season() {
-    return this.formSearch.get('season')
-  }
-  get status() {
-    return this.formSearch.get('status')
-  }
-  get sourceAnime() {
-    return this.formSearch.get('sourceAnime')
+  get inputSearch() { return this.formSearch.get('inputSearch') }
+  get isAdult() {    return this.formSearch.get('isAdult')  }
+  get genres() {    return this.formSearch.get('genres')  }
+  get dateAnime() {    return this.formSearch.get('dateAnime')  }
+  get season() {    return this.formSearch.get('season')  }
+  get status() {    return this.formSearch.get('status')  }
+  get sourceAnime() {    return this.formSearch.get('sourceAnime')  }
+
+  selectAdult = (e: any) => {
+    let mode: boolean;
+    if (e.target.value === 'false') {
+      mode = false;
+    } else {
+      mode = true;
+    }
+    this.isAdult?.setValue(mode, {
+      onlySelf: true
+    })
   }
 
   selectSeason = (e: any) => {
@@ -103,9 +102,7 @@ export class FiltersAnimeComponent implements OnInit {
     })
   }
 
-  constructor() {
-    this.formSearch = this.createForm()
-  }
+  constructor() {  this.formSearch = this.createForm()  }
 
   ngOnInit(): void {
 
@@ -130,16 +127,16 @@ export class FiltersAnimeComponent implements OnInit {
     }
   }
 
-  spaceToUnderScore = (s:string) =>{
-    return s.replace(/\s/,'_')
-    }
+  spaceToUnderScore = (s: string) => {
+    return s.replace(/\s/, '_')
+  }
 
   reviseVariables = () => {
 
     let actualPage = 1;
 
     let filterAnime: string = this.formSearch.value.inputSearch;
-    let stateAdult: boolean = Boolean(this.formSearch.value.isAdult);
+    let stateAdult: boolean = this.formSearch.value.isAdult;
     let arrayGenres: string[] = this.formSearch.value.genres;
     let selectedYear: string = this.parseString((this.formSearch.value.dateAnime).toString());
     let selectSeason: string = this.parseString(this.formSearch.value.season)
@@ -150,9 +147,6 @@ export class FiltersAnimeComponent implements OnInit {
 
     arrayGenres === undefined ? arrayGenres = [] : arrayGenres;
     selectedYear !== '' ? selectedYear = selectedYear + '%' : selectedYear;
-
-    console.log(selectSource);
-
 
     switch (selectStatus) {
       case 'Airing':
@@ -195,8 +189,6 @@ export class FiltersAnimeComponent implements OnInit {
     }
     return variablesGraphQL;
   }
-
-  loadedImage!: string
 
   loadImage(fileInput: HTMLInputElement) {
     if (!fileInput.files || fileInput.files.length === 0) { return; }
