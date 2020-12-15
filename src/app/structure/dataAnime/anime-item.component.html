@@ -1,13 +1,37 @@
-<div>
-  <a [routerLink]="['/detail/', elemAnime.id]" (click)="clickAnime()">
-    <img [src]="elemAnime.coverImage.large" [alt]="elemAnime.title.romaji">
-    <h1>{{elemAnime.title.romaji}}</h1>
-    <p>{{(elemAnime.description)}}</p>
-    <p>{{elemAnime.mediaListEntry?.status}}</p>
-    </a>
-</div>
+<mat-card *ngIf="elemAnime.description;else browsePage">
+  <mat-card-header>
+    <mat-card-title>
+      <h2> <a [routerLink]="['/detail/', elemAnime.id]" (click)="clickAnime()" > {{ elemAnime.title.romaji | truncatePipe : 30 : true }} </a> </h2>
+    </mat-card-title>
+  </mat-card-header>
 
-<div>
-  <button (click)="openUpdateAnime()">Abrir Modal</button>
-</div>
+  <div fxLayout fxLayoutGap="15px">
+    <img class="imgCard" [routerLink]="['/detail/', elemAnime.id]" [src]="elemAnime.coverImage.large" [alt]="elemAnime.title.romaji" mat-card-image />
+    <hr>
+    <div>
+      <mat-card-actions>
+        <button (click)="openUpdateAnime()">
+          {{ elemAnime.mediaListEntry?.status || "Agregar"}}
+        </button>
+      </mat-card-actions>
+      <mat-card-content>
+        {{ elemAnime.description | truncatePipe}}
+      </mat-card-content>
+    </div>
+  </div>
+</mat-card>
 
+<ng-template #browsePage>
+
+<mat-card class="browseCard">
+  <mat-card-header>
+    <mat-card-title>
+      <h2> <a [routerLink]="['/detail/', elemAnime.id]" (click)="clickAnime()" > {{ elemAnime.title.romaji | truncatePipe : 30 : true }} </a> </h2>
+    </mat-card-title>
+  </mat-card-header>
+
+  <div fxLayout fxLayoutGap="15px" fxLayoutAlign="center center">
+    <img class="imgCard" [routerLink]="['/detail/', elemAnime.id]" [src]="elemAnime.coverImage.large" [alt]="elemAnime.title.romaji" mat-card-image />
+  </div>
+</mat-card>
+</ng-template>

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnimeDetails, fuzzyDate } from '../interfaces/anime-details';
 import { MediaListEntry } from '../interfaces/media-list-entry';
 import { IAnime } from '../interfaces/pages-anime';
@@ -12,25 +13,21 @@ import { AnimeUpdateService } from '../services/anime-update.service';
 })
 export class UpdateAnimeComponent implements OnInit {
 
-  @Input() dataSelectAnime !: IAnime | AnimeDetails;
+  dataSelectAnime !: IAnime | AnimeDetails;
 
   @Output() finishedModal = new EventEmitter<void>()
 
-
   formUpdate!: FormGroup
-
-  public statuAnime: string[] = ['Current', 'Planning', 'Completed', 'Dropped', 'Paused', 'Repeating'];
-
-  constructor(private animeUpdate: AnimeUpdateService) {
-
-  }
-
   idList!: number;
   idListState: boolean = false;
-
   idMedia!: number;
-
   SaveMediaListEntry!: MediaListEntry;
+
+  statuAnime: string[] = ['Current', 'Planning', 'Completed', 'Dropped', 'Paused', 'Repeating'];
+
+  constructor(private animeUpdate: AnimeUpdateService, public dialogRef: MatDialogRef<UpdateAnimeComponent>, @Inject(MAT_DIALOG_DATA) public data: IAnime | AnimeDetails ) {
+      this.dataSelectAnime = data;
+  }
 
   createFormGroup() {
     return new FormGroup({
@@ -196,7 +193,7 @@ export class UpdateAnimeComponent implements OnInit {
   }
 
   closeModal() {
-    this.finishedModal.emit();
+    this.dialogRef.close();
   }
 
 }

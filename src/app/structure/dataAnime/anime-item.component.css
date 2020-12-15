@@ -1,0 +1,46 @@
+mat-card{
+  width: 400px;
+  height: 390px;
+  margin: 0.5em;
+  color: #534e52;
+  box-sizing: border-box;
+  z-index: 0;
+}
+
+mat-card-header{
+  justify-content: center;
+  align-items: center;
+}
+
+mat-card.browseCard{
+  width: 250px !important;
+  transition: all 0.6s;
+}
+
+mat-card.browseCard:hover{
+  background-color: #c7956d;
+}
+
+h2{
+  text-align: center;
+}
+
+hr{
+  margin: 2px
+}
+
+.imgCard{
+  margin: 3px;
+  width: 210px;
+  height: 300px;
+  border: 2px solid #c7956d;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #534e52;
+}
+a:hover, a:active {
+  color: #965d62;
+}

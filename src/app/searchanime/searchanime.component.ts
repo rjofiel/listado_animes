@@ -1,9 +1,11 @@
-import { jsDocComment } from '@angular/compiler';
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { subscribe } from 'graphql';
 import { Generos } from '../interfaces/generos';
 import { IAnime, ImgAnime, PageInfo, PagesAnime } from '../interfaces/pages-anime';
 import { QueryVariables } from '../interfaces/query-variables';
 import { SearchImage } from '../interfaces/search-image';
+import { PotentialResultsComponent } from '../potential-results/potential-results.component';
 import { AnimesService } from '../services/animes.service';
 import { SearchImageService } from '../services/search-image.service';
 
@@ -15,23 +17,26 @@ import { SearchImageService } from '../services/search-image.service';
 })
 export class SearchanimeComponent implements OnInit {
 
+
+  constructor(private animeService: AnimesService, private searchImage: SearchImageService, public potentialModal: MatDialog) {}
+
   selector: string = '.search-results'
   @ViewChild('ModalSearch') ModalSearch!: TemplateRef<any>;
-  @ViewChild('vc', { read: ViewContainerRef }) vc!: ViewContainerRef;
   backdrop: any
 
-  @ViewChild('ModalUpdate') ModalUpdate!: TemplateRef<any>;
 
   public generos!: Generos[];
   public loading: boolean = true;
+  loadingFilters: boolean = true;
+  problemData: boolean = false;
   public error: any;
   public imgRandom: any;
 
   public textSearch: string = '';
 
   variablesQuery!: QueryVariables;
+  luckyStatus:boolean = false;
 
-  constructor(private animeService: AnimesService, private searchImage: SearchImageService) {}
 
   public pageInfo!: PageInfo;
   public imgAnimes!: ImgAnime;
@@ -55,25 +60,28 @@ export class SearchanimeComponent implements OnInit {
       this.pageInfo = data.Page.pageInfo as PageInfo;
       this.loading = loading,
       this.error = error;
+      this.loadingFilters = false;
     })
   }
 
-
   searchLucky = async (s: string) => {
 
-    let img = document.querySelector("img");
+
+    this.luckyStatus = true;
+
+    let img = document.querySelector("#potentialImg");
+
     this.imgRandom = await this.searchImage.ImageSearch(img, s);
     this.imageFound = this.imgRandom.docs;
 
-
-    this.openPotentialModal(this.imageFound);
-
+   this.openPotentialModal(this.imageFound);
   }
-
 
   arrayId!: number[]
 
   openPotentialModal = (e: SearchImage[])  => {
+
+
     let arrayId: number[] = []
     e.forEach((elem) => {
       if(elem.anilist_id){
@@ -82,50 +90,32 @@ export class SearchanimeComponent implements OnInit {
     })
 
     this.arrayId = arrayId.filter((el, i)=> arrayId.indexOf(el) === i)
+    const potentialModal: MatDialogRef<PotentialResultsComponent, any> = this.loadedDialog()
 
-      let view = this.ModalSearch.createEmbeddedView(null);
+      if(potentialModal){
+        console.log("Hola");
+        this.luckyStatus = false;
+      }
+  }
 
-      view ? this.vc.insert(view) : null;
-
-      let contenedor = document.getElementById('contenedor');
-      contenedor?.classList.add('fixed-position');
-
-      this.backdrop = document.createElement('DIV');
-      this.backdrop.className = 'container-modal';
-
-      document.body.appendChild(this.backdrop)
+  loadedDialog(): MatDialogRef<PotentialResultsComponent, any>{
+   return this.potentialModal.open(PotentialResultsComponent, {
+      width:'450px',
+      data: this.arrayId,
+    },)
   }
 
 
   dataModalUpdate!: IAnime;
 
-  openUpdateModal = (e:any) => {
-
-    let view = this.ModalUpdate.createEmbeddedView(null);
-
-    if(view) this.vc.insert(view);
-
-    let contenedor = document.getElementById('contenedor');
-    contenedor?.classList.add('fixed-position')
-
-    this.backdrop = document.createElement('DIV')
-    this.backdrop.className = 'container-modal';
-    document.body.appendChild(this.backdrop)
-
-    this.dataModalUpdate = e;
-
-
-
-
-  }
 
   updatePage() {
-
+    this.loadingFilters = true
     this.animeService.getFilterAnimes(this.variablesQuery).subscribe(({data, loading, error})=> {
       this.ListaPagina = data.Page as PagesAnime,
       this.Animes = data.Page.media as IAnime[]
       this.pageInfo = data.Page.pageInfo as PageInfo,
-      this.loading = loading,
+      this.loadingFilters = loading,
       this.error = error
     }).unsubscribe
   }
@@ -153,14 +143,10 @@ export class SearchanimeComponent implements OnInit {
 
   statusFilters(e:any){
       this.variablesQuery = e;
+      console.log(this.variablesQuery);
+
       this.updatePage();
   }
 
-  closeModal = () => {
-    this.vc.clear();
-    let contenedor = document.getElementById('contenedor');
-    contenedor?.classList.remove('fixed-position');
-    document.body.removeChild(this.backdrop);
-  }
 
  }

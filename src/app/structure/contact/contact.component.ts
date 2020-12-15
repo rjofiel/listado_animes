@@ -13,7 +13,9 @@ export class ContactComponent implements OnInit {
 
   patternEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  subject: string[]=['Bug Reports & Technical Errors', 'Database Problems', 'Suggestions for Features/Changes']
+  subject: string[]=['Bug Reports & Technical Errors', 'Database Problems', 'Suggestions for Features/Changes'];
+
+  confirmation!: string;
 
   constructor(private serviceMail: MailThisService) {
     this.formContact = this.createFormContact()
@@ -51,32 +53,28 @@ export class ContactComponent implements OnInit {
 
   changeSubject(e:any){
 
-    console.log(e.target.value);
-
-
     this.issues?.setValue(e.target.value,{
       onlySelf:true
     })
   }
 
   ngOnInit(): void {  }
-
+  stat: boolean = false;
   sendForm(){
 
     let dataForm = {
       _replyto: this.formContact.value.email,
       name: this.formContact.value.username,
       _subject: this.formContact.value.issues,
-      message:this.formContact.value.messaje
+      message:this.formContact.value.messaje,
+      //_confirmation: "localhost:4200/Contact"
     }
 
-    console.log(dataForm);
-
-
     this.serviceMail.mailThis(dataForm).subscribe(a=>{
-      () => console.log("Form sended.");
-
-
+        if(a){
+          this.stat = true;
+          this.confirmation = 'https://mailthis.to/confirm';
+        }
     })
   }
 

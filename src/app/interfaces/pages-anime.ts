@@ -9,7 +9,7 @@ export interface IAnime {
   id:number,
   status: string,
   episodes:number,
-  description?:string,
+  description:string,
   title: {
     romaji:string,
     userPreferred:string,

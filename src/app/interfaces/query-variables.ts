@@ -15,4 +15,7 @@ export interface QueryVariables {
 export interface UserAuthenticated {
   id: number,
   name: string
+  avatar: {
+    medium: string
+  }
 }

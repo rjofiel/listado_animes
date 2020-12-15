@@ -14,8 +14,6 @@ export class AnimeItemComponent implements OnInit {
   @Output() selectAnime = new EventEmitter<object>()
   @Output() animeModalSelect = new EventEmitter<object>()
 
-
-
   constructor(private animeService:AnimesService) { }
 
   ngOnInit(): void {

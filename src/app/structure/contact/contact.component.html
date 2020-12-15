@@ -34,8 +34,14 @@
       <textarea name="messaje" formControlName="messaje"></textarea>
     </div>
 
+    <input type="hidden" name="_after" id="">
     <div>
       <button type="submit" [disabled]="!formContact.valid">Enviar</button>
     </div>
   </form>
+
+<div *ngIf="stat">
+  <iframe src="{{confirmation}}" frameborder="1"></iframe>
+</div>
+
 </div>

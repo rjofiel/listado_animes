@@ -1,0 +1,55 @@
+.bgForm{
+  background: white;
+  padding: 1em;
+  box-shadow: 3px 2px 5px -2px black;
+}
+
+
+.advancedSearch{
+  padding-top: 15px;
+  width: 65%;
+}
+
+#potentialImg{
+  cursor: pointer;
+  filter: grayscale(0.3);
+  transition: all 0.5s;
+}
+
+#potentialImg:hover{
+  transform: scale(1.05);
+  filter: grayscale(0);
+}
+
+
+.uploadFile{
+  padding-top: 5px;
+  position: relative;
+}
+
+.sizeFile{
+  width: 600px;
+}
+
+.file{
+  width: 100%;
+  padding-top: 20px;
+}
+
+.loadedImage > img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #c7956d;
+  position: relative;
+}
+.spinnerLucky{
+  position: absolute;
+  top: 7px;
+  left: 612px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  z-index: 1024;
+}

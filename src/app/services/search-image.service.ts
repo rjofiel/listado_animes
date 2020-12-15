@@ -1,22 +1,25 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { request } from 'https';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchImageService {
 
-  constructor() { }
+  constructor() {}
 
   ImageSearch = async (img:any, bas64:string) => {
 
+
     let canvas = document.createElement("canvas");
+
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
 
     let ctx = canvas.getContext("2d");
 
     ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-
 
     const res = await fetch("https://trace.moe/api/search", {
       method: "POST",
@@ -25,5 +28,10 @@ export class SearchImageService {
     });
     const json = await res.json();
     return json;
+
   }
+
+
+
+
 }

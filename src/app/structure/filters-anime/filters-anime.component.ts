@@ -13,11 +13,13 @@ export class FiltersAnimeComponent implements OnInit {
   filterSearch = ''
 
   @Input() initGenres!: Generos[]
+  @Input() loadingLucky !: boolean;
 
-  @Output() filter = new EventEmitter<object>();
+  @Output() filter = new EventEmitter<QueryVariables>();
   @Output() convertImage = new EventEmitter<string>();
+  @Output() showPrevousDialog = new EventEmitter<void>();
 
-  genre: boolean = false;
+  genreActive: boolean = false;
 
   formSearch!: FormGroup
   yearOptions: number[] = []
@@ -33,11 +35,11 @@ export class FiltersAnimeComponent implements OnInit {
       inputSearch: new FormControl('', Validators.minLength(3)),
       isAdult: new FormControl(false),
       genres: new FormArray([]),
-      dateAnime: new FormControl(''),
+      dateAnime: new FormControl(""),
       season: new FormControl(''),
       status: new FormControl(''),
       sourceAnime: new FormControl(''),
-      //file: new FormControl(''),
+      file: new FormControl(''),
     })
   }
 
@@ -48,10 +50,12 @@ export class FiltersAnimeComponent implements OnInit {
   get season() {    return this.formSearch.get('season')  }
   get status() {    return this.formSearch.get('status')  }
   get sourceAnime() {    return this.formSearch.get('sourceAnime')  }
+  get file() { return this.formSearch.get('file') }
 
   selectAdult = (e: any) => {
+
     let mode: boolean;
-    if (e.target.value === 'false') {
+    if (!e.value) {
       mode = false;
     } else {
       mode = true;
@@ -62,33 +66,38 @@ export class FiltersAnimeComponent implements OnInit {
   }
 
   selectSeason = (e: any) => {
-    this.season?.setValue(e.target.value, {
+    this.season?.setValue(e.value, {
       onlySelf: true
     })
   }
 
   selectStatus = (e: any) => {
-    this.status?.setValue(e.target.value, {
+    this.status?.setValue(e.value, {
       onlySelf: true
     })
   }
 
   selectDateAnime = (e: any) => {
-    this.dateAnime?.setValue(e.target.value, {
+
+    console.log(e.value);
+
+    this.dateAnime?.setValue(e.value, {
       onlySelf: true
     })
+
+
+    console.log(this.formSearch.get('dateAnime') );
   }
 
   selectsGenres = (e: any) => {
-
     const checkedGenres: FormArray = this.formSearch.get('genres') as FormArray;
 
-    if (e.target.checked) {
-      checkedGenres.push(new FormControl(e.target.value))
+    if (e.checked) {
+      checkedGenres.push(new FormControl(e.source.value))
     } else {
       let i = 0;
       checkedGenres.controls.forEach((elem) => {
-        if (elem.value === e.target.value) {
+        if (elem.value === e.source.value) {
           checkedGenres.removeAt(i)
         }
         i++
@@ -97,7 +106,7 @@ export class FiltersAnimeComponent implements OnInit {
   }
 
   selectSource = (e: any) => {
-    this.sourceAnime?.setValue(e.target.value, {
+    this.sourceAnime?.setValue(e.value, {
       onlySelf: true
     })
   }
@@ -116,7 +125,7 @@ export class FiltersAnimeComponent implements OnInit {
 
   toggleGenres = (e: Event) => {
     e.preventDefault()
-    this.genre = !this.genre
+    this.genreActive = !this.genreActive
   }
 
   parseString(s: string) {
@@ -133,13 +142,16 @@ export class FiltersAnimeComponent implements OnInit {
 
   reviseVariables = () => {
 
+
+    console.log(this.formSearch.get('dateAnime') );
+
     let actualPage = 1;
 
     let filterAnime: string = this.formSearch.value.inputSearch;
     let stateAdult: boolean = this.formSearch.value.isAdult;
     let arrayGenres: string[] = this.formSearch.value.genres;
     let selectedYear: string = this.parseString((this.formSearch.value.dateAnime).toString());
-    let selectSeason: string = this.parseString(this.formSearch.value.season)
+    let selectSeason: string = this.parseString(this.formSearch.value.season).toUpperCase();
     let selectStatus: string = this.parseString(this.formSearch.value.status)
     let selectSource: string = this.spaceToUnderScore(this.parseString(this.formSearch.value.sourceAnime).toString()).toUpperCase();
 
@@ -190,11 +202,13 @@ export class FiltersAnimeComponent implements OnInit {
     return variablesGraphQL;
   }
 
-  loadImage(fileInput: HTMLInputElement) {
+  loadImage(fileInput: any) {
+
     if (!fileInput.files || fileInput.files.length === 0) { return; }
 
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(fileInput.files[0]);
+
     reader.addEventListener('loadend', () => {
 
       this.loadedImage = reader.result as string;
@@ -203,5 +217,9 @@ export class FiltersAnimeComponent implements OnInit {
         this.convertImage.emit(this.loadedImage);
       }, 200)
     });
+  }
+
+  openPreviousDialog(){
+    this.showPrevousDialog.emit()
   }
 }

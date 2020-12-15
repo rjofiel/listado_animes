@@ -1,48 +1,51 @@
-<div
-  class="container-fluid"
-  id="contenedor"
-  infiniteScroll
-  [infiniteScrollDistance]="1"
-  [infiniteScrollUpDistance]="2"
-  [infiniteScrollThrottle]="150"
-  [infiniteScrollContainer]="selector"
-  [fromRoot]="true"
-  (scrolled)="filterNextPage()"
->
+<div class="spinnerLoading" *ngIf="loading; else pageLoaded">
+  <mat-spinner color="accent" *ngIf="loading"></mat-spinner>
+  <div>
+    <span class="data-error" *ngIf="problemData">Search will take longer</span>
+  </div>
+</div>
+
+<ng-template #pageLoaded>
   <app-filters-anime
     [initGenres]="generos"
     (filter)="statusFilters($event)"
     (convertImage)="searchLucky($event)"
+    [loadingLucky]="luckyStatus"
+    (showPrevousDialog)="loadedDialog()"
   ></app-filters-anime>
 
-  <div *ngIf="loading">Loading...</div>
-  <div *ngIf="ListaPagina && Animes.length; else noExist">
-    <app-anime-item
-      *ngFor="let anime of Animes"
-      [elemAnime]="anime"
-      (animeModalSelect)="openUpdateModal($event)"
-    >
-    </app-anime-item>
+  <div
+    id="contenedor"
+    infiniteScroll
+    [infiniteScrollDistance]="1"
+    [infiniteScrollUpDistance]="2"
+    [infiniteScrollThrottle]="150"
+    [infiniteScrollContainer]="selector"
+    [fromRoot]="true"
+    (scrolled)="filterNextPage()"
+  >
+    <div class="spinnerLoading" *ngIf="loadingFilters; else dataLoaded">
+      <mat-spinner color="accent" *ngIf="loadingFilters"></mat-spinner>
+      <div>
+        <span class="data-error" *ngIf="problemData"
+          >Search will take longer</span
+        >
+      </div>
+    </div>
+
+    <ng-template #dataLoaded>
+      <div
+        fxLayout="row wrap"
+        fxLayoutAlign="center center"
+        *ngIf="ListaPagina && Animes.length; else noExist"
+      >
+        <app-anime-item *ngFor="let anime of Animes" [elemAnime]="anime">
+        </app-anime-item>
+      </div>
+
+      <ng-template #noExist>
+        <h1>No existen animes a mostrar</h1>
+      </ng-template>
+    </ng-template>
   </div>
-
-  <ng-template #noExist>
-    <h1>No existen animes a mostrar</h1>
-  </ng-template>
-</div>
-
-<ng-container #vc> </ng-container>
-
-<ng-template #ModalSearch>
-  <app-potential-results
-    [arrayAnimes]="arrayId"
-    (finishedModal)="closeModal()"
-    (selected)="closeModal()"
-  ></app-potential-results>
-</ng-template>
-
-<ng-template #ModalUpdate>
-  <app-update-anime
-    [dataSelectAnime]="dataModalUpdate"
-    (finishedModal)="closeModal()"
-  ></app-update-anime>
 </ng-template>

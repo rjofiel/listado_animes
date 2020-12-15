@@ -1,53 +1,53 @@
-<div class="container-fluid" id="contenedorAnimes">
-  <div>Login/SignUp</div>
-  <form>
+<div id="containerAnimes">
+  <div class="spinnerLoading" *ngIf="loading; else dataLoaded">
+    <mat-spinner color="accent" *ngIf="loading"></mat-spinner>
     <div>
-      <input
-        type="search"
-        name="search"
-        [(ngModel)]="textSearch"
-        (keyup)="searchText($event)"
-        placeholder="Search"
-        aria-label="Search"
-      />
-    </div>
-  </form>
-
-  <div *ngIf="loading">Loading...</div>
-  <div *ngIf="ListaPagina && Animes.length; else noExist">
-    <app-anime-item
-      *ngFor="let anime of Animes"
-      [elemAnime]="anime"
-      (animeModalSelect)="openModal(anime)"
-    ></app-anime-item>
-    <div>
-      <p href="#">
-        <a
-          href="#"
-          (click)="updatePage($event, 'back')"
-          *ngIf="pageInfo.currentPage > 1"
-        >
-          &laquo;
-        </a>
-        {{ pageInfo.currentPage }}
-        <a
-          *ngIf="pageInfo.hasNextPage"
-          href="#"
-          (click)="updatePage($event, 'next')"
-        >
-          &laquo;
-        </a>
-      </p>
+      <span class="data-error" *ngIf="problemData"
+        >Search will take longer</span
+      >
     </div>
   </div>
+
+  <ng-template #dataLoaded>
+    <div>
+      <form fxLayout fxLayoutAlign="center center">
+        <mat-form-field class="quickSearch" appearance="outline" color="accent">
+          <mat-label>Quick Search</mat-label>
+          <input
+            class="textSearch"
+            type="search"
+            name="search"
+            matInput
+            [(ngModel)]="textSearch"
+            (keyup)="searchText($event)"
+            placeholder="Search anime"
+            aria-label="Search anime"
+          />
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div *ngIf="Animes.length; else noExist">
+      <div fxLayout="row wrap" fxLayoutAlign="center center">
+        <app-anime-item
+          *ngFor="let anime of Animes"
+          [elemAnime]="anime"
+          (animeModalSelect)="showDialog(anime)"
+        ></app-anime-item>
+      </div>
+      <mat-paginator
+        #paginator
+        [pageIndex]="pageIndex"
+        [length]="recordCount"
+        [pageSize]="20"
+        [showFirstLastButtons]="true"
+        (page)="pageEvent = $event; onPageChange($event)"
+      ></mat-paginator>
+    </div>
+  </ng-template>
 
   <ng-template #noExist>
     <h1>No existen animes a mostrar</h1>
   </ng-template>
 </div>
 
-<ng-container #modalOpened> </ng-container>
-
-<ng-template  #modalAddAnime>
- <app-update-anime [dataSelectAnime]="selectAnime" (finishedModal)="close()" ></app-update-anime>
-</ng-template>

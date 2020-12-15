@@ -1,82 +1,109 @@
-<div class="container-fluid " id="contenedorDetails">
-
-  <div *ngIf="loading">
-    <h2>Cargando</h2>
+<div class="container-fluid" id="contenedorDetails">
+  <div class="spinnerLoading" *ngIf="loading; else detailLoaded">
+    <mat-spinner color="accent" *ngIf="loading"></mat-spinner>
   </div>
 
-  <div *ngIf="!loading">
-    <img [src]="animeData.bannerImage" [alt]="animeData.title.userPreferred" width="350"/>
-    <img [src]="animeData.coverImage.large" [alt]="animeData.title.romaji" />
-    <h1>{{ animeData.title.userPreferred }}</h1>
-    <button (click)="openModal(animeData)" >MODAL</button>
-    <p>{{ animeData.description }}</p>
+  <ng-template #detailLoaded>
+    <img
+      [src]="animeData.bannerImage"
+      [alt]="animeData.title.userPreferred"
+      width="100%"
+    />
 
-    <div>
-      <p>{{ animeData.status }}</p>
-      <p>Episodes: {{ animeData.episodes }}</p>
-      <p>
-        Start date: {{ animeData.startDate.day }}/{{
-          animeData.startDate.month
-        }}/{{ animeData.startDate.year }}
-      </p>
-      <p>
-        End date: {{ animeData.endDate.day }}/{{ animeData.endDate.month }}/{{
-          animeData.endDate.year
-        }}
-      </p>
-      <h2>Studios</h2>
-      <div *ngFor="let studio of animeData.studios.edges">
-        <p>{{studio.node.name}}</p>
-      </div>
-    </div>
-
-    <div *ngFor="let link of animeData.externalLinks">
-      <p>
-        <a [href]="link.url">{{ link.site }}</a>
-      </p>
-    </div>
-
-    <div>
-      <div *ngFor="let actor of castAnime">
-        <div>
-          <h2>Character</h2>
-          <h3>{{ actor.node.name.full }}</h3>
-          <h4>{{ actor.node.name.native }}</h4>
-          <img src="{{ actor.node.image.medium }}" [alt]="actor.node.name.full" />
-          <p>{{ actor.node.description }}</p>
-        </div>
-
-        <div>
-          <h2>Voice Actor</h2>
-          <h3>{{ actor.voiceActors[0].name.full }}</h3>
-          <h4>{{ actor.voiceActors[0].name.native }}</h4>
-          <img
-            src="{{ actor.voiceActors[0].image.medium }}"
-            [alt]="actor.voiceActors[0].name.full"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="animeData.trailer">
-      <h1>Trailer</h1>
+    <div fxLayout fxLayoutGap="20px" class="bgDetails">
       <div>
-        <iframe
-          width="720"
-          height="420"
-          [src]="safeURL"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <img
+          [src]="animeData.coverImage.large"
+          [alt]="animeData.title.romaji"
+          width="300px"
+        />
+
+        <div class="featuresAnime">
+          <button mat-flat-button color="accent" (click)="showDialog(animeData)">
+            {{ animeData.status }}
+          </button>
+          <div>
+            <p>Episodes: {{ animeData.episodes }}</p>
+            <p>
+              Start date: {{ animeData.startDate.day }}/{{
+                animeData.startDate.month
+              }}/{{ animeData.startDate.year }}
+            </p>
+            <p>
+              End date: {{ animeData.endDate.day }}/{{
+                animeData.endDate.month
+              }}/{{ animeData.endDate.year }}
+            </p>
+          </div>
+          <div>
+            <h2>Studios</h2>
+            <div *ngFor="let studio of animeData.studios.edges">
+              <p>{{ studio.node.name }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <h1>{{ animeData.title.userPreferred }}</h1>
+          <p>{{ animeData.description }}</p>
+        </div>
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
+          <div
+            *ngFor="let link of animeData.externalLinks"
+            class="externalLinks"
+          >
+            <a [href]="link.url">{{ link.site }}</a>
+          </div>
+        </div>
+        <div fxLayout fxLayoutAlign="space-between none" fxLayoutGap="10px">
+          <div *ngIf="animeData.trailer">
+            <h1>Trailer</h1>
+            <div>
+              <iframe
+                width="550"
+                height="300"
+                [src]="safeURL"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div>
+            <div
+              class="characters"
+              *ngFor="let actor of castAnime"
+              fxLayout="row"
+              fxLayoutAlign="space-between none"
+            >
+              <div>
+                <h2>Character</h2>
+                <h3>{{ actor.node.name.full }}</h3>
+                <h4>{{ actor.node.name.native }}</h4>
+                <img
+                  src="{{ actor.node.image.medium }}"
+                  [alt]="actor.node.name.full"
+                  width="100"
+                  height="135"
+                />
+                <p>{{ actor.node.description | truncatePipe: 10:true }}</p>
+              </div>
+
+              <div>
+                <h2>Voice Actor</h2>
+                <h3>{{ actor.voiceActors[0].name.full }}</h3>
+                <h4>{{ actor.voiceActors[0].name.native }}</h4>
+                <img
+                  src="{{ actor.voiceActors[0].image.medium }}"
+                  [alt]="actor.voiceActors[0].name.full"
+                  width="100"
+                  height="150"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-  </div>
+  </ng-template>
 </div>
-
-
-<ng-container #modalOpened> </ng-container>
-
-<ng-template  #modalAddAnime>
- <app-update-anime [dataSelectAnime]="selectAnime" (finishedModal)="close()" ></app-update-anime>
-</ng-template>

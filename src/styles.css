@@ -1,13 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/bootstrap/dist/css/bootstrap.css";
-
-
 
 .fixed-position{
   height: 94vh;
   overflow: hidden;
   filter: blur(2px);
-
 }
 
 .container-modal{
@@ -18,12 +14,11 @@
   width: 100vw;
   height: 100vh;
 
-  background-color: rgba(46, 45, 45, 0.5);
+  background-color: rgba(73, 66, 66, 0.5);
 }
 
 .modal-open{
   color: cadetblue;
-  overflow-y: scroll;
 }
 
 .search-results {
@@ -34,4 +29,47 @@
 .scrollHidden{
   height: 100vh;
   overflow: hidden;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #534e52; }
+
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: rgba(255, 255, 255, 0.428) !important;
+  border-radius: 5px;
+  color: #c7956d;
+}
+
+#inputAdvanced.searchAdvanced .mat-form-field-appearance-outline .mat-form-field-outline  {
+  background-color: #534e5292 !important;
+  border-radius: 5px;
+  color: #c7956d;
+}
+
+
+.spinnerLoading{
+  background: rgba(0, 0, 0, 0.573);
+  position: absolute;
+  top:64px;
+  left:0;
+  bottom:0;
+  right:0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.data-error{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top:150px;
+  left:0;
+  bottom:0;
+  right:0;
+  color: #b3121f;
 }

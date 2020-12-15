@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IAnime } from '../interfaces/pages-anime';
 import { AnimesService } from '../services/animes.service';
 
@@ -10,6 +11,11 @@ import { AnimesService } from '../services/animes.service';
 export class PotentialResultsComponent implements OnInit {
 
 
+  constructor(private animeService: AnimesService, public potentialResults: MatDialogRef<PotentialResultsComponent>, @Inject(MAT_DIALOG_DATA) data: number[]) {
+    this.arrayAnimes = data;
+   }
+
+
   @Input() arrayAnimes !: number[]
   imageFound: boolean = false;
   potentialAnime!: IAnime[];
@@ -17,7 +23,6 @@ export class PotentialResultsComponent implements OnInit {
   @Output() finishedModal = new EventEmitter<void>()
   @Output() selected = new EventEmitter<void>();
 
-  constructor(private animeService: AnimesService) { }
 
 
   ngOnInit(): void {
@@ -27,10 +32,6 @@ export class PotentialResultsComponent implements OnInit {
   getPotentialAnimes = () => {
     this.animeService.searchModal(this.arrayAnimes).subscribe(({data, loading, error})=>{
       this.potentialAnime = data.Page.media as IAnime[]
-      console.log(this.potentialAnime);
-      console.log(loading);
-      console.log(error);
-
       if(this.potentialAnime){
         this.imageFound = true
       }

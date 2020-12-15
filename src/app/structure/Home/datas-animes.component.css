@@ -1,0 +1,15 @@
+#containerAnimes{
+  height: 100%;
+  min-height: 100vh;
+}
+
+.quickSearch{
+  justify-content: center;
+  align-items: center;
+  padding-top: 15px;
+  width: 50%;
+  color: red;
+}
+
+
+

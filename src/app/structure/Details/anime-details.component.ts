@@ -5,6 +5,8 @@ import { QueryVariables } from '../../interfaces/query-variables';
 import { AnimeDetails, infoCast,  } from '../../interfaces/anime-details';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { IAnime } from 'src/app/interfaces/pages-anime';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateAnimeComponent } from 'src/app/update-anime/update-anime.component';
 
 @Component({
   selector: 'app-anime-details',
@@ -16,10 +18,7 @@ export class AnimeDetailsComponent implements OnInit {
 
   selectAnime !: IAnime ;
 
-  constructor(private route: ActivatedRoute, private animesService: AnimesService, private sanitizer: DomSanitizer) { }
-
-  @ViewChild('modalAddAnime') modal !: TemplateRef<any>;
-  @ViewChild('modalOpened', { read: ViewContainerRef }) opened !: ViewContainerRef;
+  constructor(public updateEntry: MatDialog, private route: ActivatedRoute, private animesService: AnimesService, private sanitizer: DomSanitizer) { }
 
   loading: boolean = true;
   error: any;
@@ -76,32 +75,16 @@ export class AnimeDetailsComponent implements OnInit {
     }, 300);
   }
 
+  showDialog(e:IAnime | AnimeDetails){
+    const dialogRef = this.updateEntry.open(UpdateAnimeComponent, {
+      width: '600px',
+      data: e,
+    })
 
-  backdrop: any
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
 
-  openModal = (e: IAnime | AnimeDetails) => {
-
-    let view = this.modal.createEmbeddedView(null);
-
-    this.opened.insert(view);
-
-    let contenedor = document.getElementById('contenedorDetails')
-
-    contenedor?.classList.add('fixed-position');
-
-    this.backdrop = document.createElement('DIV');
-    this.backdrop.className = 'container-modal';
-
-    this.selectAnime = e;
-    document.body.appendChild(this.backdrop);
-
-  }
-
-  close = () => {
-    this.opened.clear()
-    let contenedor = document.getElementById('contenedorDetails');
-    contenedor?.classList.remove('fixed-position')
-    document.body.removeChild(this.backdrop);
+    })
   }
 
 
