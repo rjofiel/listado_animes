@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NoSchemaIntrospectionCustomRule } from 'graphql';
 import { MailThisService } from 'src/app/services/mail-this.service';
 
 @Component({
@@ -52,14 +53,15 @@ export class ContactComponent implements OnInit {
   }
 
   changeSubject(e:any){
+    console.log(e);
 
-    this.issues?.setValue(e.target.value,{
+    this.issues?.setValue(e.value,{
       onlySelf:true
     })
   }
 
   ngOnInit(): void {  }
-  stat: boolean = false;
+
   sendForm(){
 
     let dataForm = {
@@ -67,13 +69,11 @@ export class ContactComponent implements OnInit {
       name: this.formContact.value.username,
       _subject: this.formContact.value.issues,
       message:this.formContact.value.messaje,
-      //_confirmation: "localhost:4200/Contact"
     }
 
     this.serviceMail.mailThis(dataForm).subscribe(a=>{
         if(a){
-          this.stat = true;
-          this.confirmation = 'https://mailthis.to/confirm';
+          location.href = 'https://mailthis.to/confirm';
         }
     })
   }

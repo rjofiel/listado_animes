@@ -1,0 +1,12 @@
+.cardContact{
+width: 500px;
+background-color: #f2d974;
+padding: 2em;
+border-radius: 5px;
+box-shadow: 1px 1px 5px black;
+}
+
+.containerContact{
+  width: 100%;
+  height: 100vh;
+}

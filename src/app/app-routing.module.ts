@@ -11,7 +11,7 @@ import { ContactComponent } from './structure/contact/contact.component';
 const routes: Routes = [
   { path: 'ListadoAnimes/page/:id', component: DatasAnimesComponent },
   { path: 'detail/:id', component: AnimeDetailsComponent },
-  { path: 'Busqueda', component: SearchanimeComponent },
+  { path: 'Search', component: SearchanimeComponent },
   { path: 'Login', component: AniLoginComponent },
   { path: 'Contact', component: ContactComponent },
   { path: '', redirectTo: '/ListadoAnimes/page/1', pathMatch:'full'},
