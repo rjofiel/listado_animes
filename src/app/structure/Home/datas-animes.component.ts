@@ -1,10 +1,8 @@
 
-import { Component, Input, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component,  OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge, Observable, of as observableOf } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { UpdateAnimeComponent } from 'src/app/update-anime/update-anime.component';
 import { IAnime, ImgAnime, PageInfo, PagesAnime } from '../../interfaces/pages-anime';
 import { QueryVariables } from '../../interfaces/query-variables';
@@ -95,9 +93,9 @@ export class DatasAnimesComponent implements OnInit {
       isAdult: false,
     }
 
-    if (this.textSearch.length > 4) { variableQueries.search = this.textSearch; }
+    if (this.textSearch.length > 3) { variableQueries.search = this.textSearch; }
 
-    this.ruta.navigate(['/ListadoAnimes/page/', variableQueries.page])
+    this.ruta.navigate(['/EntryAnime/page/', variableQueries.page])
 
     this.animeServices.getFilterAnimeFull(variableQueries).subscribe(({ data, loading, error }) => {
       this.ListaPagina = data.Page as PagesAnime,
@@ -129,7 +127,7 @@ export class DatasAnimesComponent implements OnInit {
 
     ev?.preventDefault();
 
-    if (this.textSearch.length > 4) {
+    if (this.textSearch.length > 3) {
 
       let variableQueries = {
         search: this.textSearch,
@@ -145,7 +143,7 @@ export class DatasAnimesComponent implements OnInit {
         this.pageIndex = 0;
         this.recordCount = (this.pageInfo.lastPage) * 20;
 
-        this.ruta.navigate(['/ListadoAnimes/page/', 1])
+        this.ruta.navigate(['/EntryAnime/page/', 1])
       },
         error => {
           if (error) {
@@ -182,15 +180,5 @@ export class DatasAnimesComponent implements OnInit {
 
     })
   }
-
-
-  close = () => {
-    this.opened.clear()
-    let contenedor = document.getElementById('contenedorAnimes');
-    contenedor?.classList.remove('fixed-position')
-    document.body.removeChild(this.backdrop);
-  }
-
-
 }
 

@@ -15,11 +15,8 @@ export class HttpConnectInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    console.log("Te encuentras dentro de la peticion de interceptor");
 
-    console.log(request);
 if(request.url === "https://trace.moe/api/search"){
-  console.log(request);
 
   request.clone({
     setHeaders:{
@@ -27,8 +24,6 @@ if(request.url === "https://trace.moe/api/search"){
     }
   });
 }
-
-
     return next.handle(request).pipe(
       catchError((err:HttpErrorResponse)=>{
         err.status

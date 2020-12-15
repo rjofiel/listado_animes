@@ -93,7 +93,6 @@ export class SearchanimeComponent implements OnInit {
     const potentialModal: MatDialogRef<PotentialResultsComponent, any> = this.loadedDialog()
 
       if(potentialModal){
-        console.log("Hola");
         this.luckyStatus = false;
       }
   }
@@ -143,7 +142,6 @@ export class SearchanimeComponent implements OnInit {
 
   statusFilters(e:any){
       this.variablesQuery = e;
-      console.log(this.variablesQuery);
 
       this.updatePage();
   }

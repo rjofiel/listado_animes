@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NoSchemaIntrospectionCustomRule } from 'graphql';
 import { MailThisService } from 'src/app/services/mail-this.service';
 
 @Component({
@@ -53,7 +52,6 @@ export class ContactComponent implements OnInit {
   }
 
   changeSubject(e:any){
-    console.log(e);
 
     this.issues?.setValue(e.value,{
       onlySelf:true

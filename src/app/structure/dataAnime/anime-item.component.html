@@ -10,8 +10,8 @@
     <hr>
     <div>
       <mat-card-actions>
-        <button (click)="openUpdateAnime()">
-          {{ elemAnime.mediaListEntry?.status || "Agregar"}}
+        <button mat-raised-button color="accent" *ngIf="Authentificated" (click)="openUpdateAnime()">
+          {{ elemAnime.mediaListEntry?.status || "ADD"}}
         </button>
       </mat-card-actions>
       <mat-card-content>

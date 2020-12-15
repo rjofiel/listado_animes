@@ -7,8 +7,6 @@ import { setContext } from '@apollo/client/link/context';
 const uri = 'https://graphql.anilist.co'; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
 
-  console.log(httpLink);
-
   const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem('accessToken');
 

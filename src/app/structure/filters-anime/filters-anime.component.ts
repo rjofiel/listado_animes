@@ -79,14 +79,11 @@ export class FiltersAnimeComponent implements OnInit {
 
   selectDateAnime = (e: any) => {
 
-    console.log(e.value);
 
     this.dateAnime?.setValue(e.value, {
       onlySelf: true
     })
 
-
-    console.log(this.formSearch.get('dateAnime') );
   }
 
   selectsGenres = (e: any) => {
@@ -141,9 +138,6 @@ export class FiltersAnimeComponent implements OnInit {
   }
 
   reviseVariables = () => {
-
-
-    console.log(this.formSearch.get('dateAnime') );
 
     let actualPage = 1;
 

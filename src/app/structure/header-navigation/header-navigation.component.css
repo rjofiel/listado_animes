@@ -1,0 +1,17 @@
+.grayColor{
+  background-color: #965d62;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+a:hover, a:active {
+  color: lightgray;
+}
+.navigation-item {
+  list-style-type: none;
+}
+
+.avatar-rounded{
+  border-radius: 100%;
+}

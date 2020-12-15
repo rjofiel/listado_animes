@@ -1,0 +1,45 @@
+<mat-toolbar
+  class="grayColor"
+  fxLayout
+  fxLayoutAlign="space-between center"
+  fxLayoutGap="20px"
+>
+  <div>
+    <ul fxLayout fxLayoutGap="20px" class="navigation-item">
+      <li fxLayoutAlign="center center">
+        <a style="cursor: pointer" (click)="volver($event)">Home</a>
+      </li>
+      <li fxLayoutAlign="center center">
+        <a [routerLink]="['/Search']">Browse</a>
+      </li>
+      <li fxLayoutAlign="center center">
+        <a [routerLink]="['/Contact']">Contact</a>
+      </li>
+      <li fxLayoutAlign="center center" >
+        <a [routerLink]="['/Login']" *ngIf="!userLogged">Log-in</a>
+      </li>
+    </ul>
+  </div>
+
+  <div fxLayout *ngIf="userLogged" fxLayoutGap="10px">
+    <div
+      *ngIf="userLogged.name"
+      fxLayout
+      fxLayoutAlign="center center"
+      fxLayoutGap="10px"
+    >
+      <span>{{ userLogged.name }}</span>
+      <img
+        [src]="userLogged.avatar.medium"
+        alt="{{ userLogged.name }}"
+        width="45px"
+        class="avatar-rounded"
+      />
+    </div>
+    <div fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+      <button mat-icon-button color="warn" (click)="userLogout()">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

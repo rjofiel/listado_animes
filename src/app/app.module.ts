@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TruncatePipePipe } from './pipes/truncate-pipe.pipe';
 import { HttpConnectInterceptor } from './interceptor/http-connect.interceptor';
 import { SearchImageService } from './services/search-image.service';
+import { HeaderNavigationComponent } from './structure/header-navigation/header-navigation.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { SearchImageService } from './services/search-image.service';
     PotentialResultsComponent,
     ContactComponent,
     TruncatePipePipe,
+    HeaderNavigationComponent,
   ],
   imports: [
     [BrowserModule, InfiniteScrollModule ],

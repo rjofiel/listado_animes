@@ -31,8 +31,15 @@ export class AniLoginComponent implements OnInit {
     ).subscribe((res) => {
       if(res.access_token){
         localStorage.setItem('accessToken', res.access_token)
-        this.ruta.navigate(['/ListadoAnimes/page/', 1])
+
+        setTimeout(()=>{
+          this.ruta.navigateByUrl('/EntryAnime/page/1')
+        }, 1000)
+
         }
     })
   }
+
+
+
 }

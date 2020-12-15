@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAnime } from 'src/app/interfaces/pages-anime';
+import { UserAuthenticated } from 'src/app/interfaces/query-variables';
 import { AnimesService } from '../../services/animes.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class AnimeItemComponent implements OnInit {
 
   @Output() selectAnime = new EventEmitter<object>()
   @Output() animeModalSelect = new EventEmitter<object>()
+
+  Authentificated = localStorage.getItem("accessToken") ? true : false
 
   constructor(private animeService:AnimesService) { }
 

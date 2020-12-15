@@ -9,12 +9,12 @@ import { SearchanimeComponent } from './searchanime/searchanime.component';
 import { ContactComponent } from './structure/contact/contact.component';
 
 const routes: Routes = [
-  { path: 'ListadoAnimes/page/:id', component: DatasAnimesComponent },
+  { path: 'EntryAnime/page/:id', component: DatasAnimesComponent },
   { path: 'detail/:id', component: AnimeDetailsComponent },
   { path: 'Search', component: SearchanimeComponent },
   { path: 'Login', component: AniLoginComponent },
   { path: 'Contact', component: ContactComponent },
-  { path: '', redirectTo: '/ListadoAnimes/page/1', pathMatch:'full'},
+  { path: '', redirectTo: '/EntryAnime/page/1', pathMatch:'full'},
 ];
 
 @NgModule({

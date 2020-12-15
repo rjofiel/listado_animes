@@ -1,34 +1,5 @@
 <div class="search-results">
-  <mat-toolbar class="grayColor">
-    <div fxFlex fxLayoutAlign="end">
-      <ul fxLayout fxLayoutGap="20px" class="navigation-item">
-        <li fxLayoutAlign="center center">
-          <a style="cursor: pointer" (click)="volver($event)">Home</a>
-        </li>
-        <li fxLayoutAlign="center center">
-          <a [routerLink]="['/Search']">Browse</a>
-        </li>
-        <li fxLayoutAlign="center center">
-          <a [routerLink]="['/Contact']">Contact</a>
-        </li>
-        <li fxLayoutAlign="center center" *ngIf="!userLogged; else UserActive">
-          <a [routerLink]="['/Login']">Iniciar sesion</a>
-        </li>
-      </ul>
-      <ng-template #UserActive>
-        <div fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
-          <span>{{ userLogged.name }}</span>
-          <img
-            [src]="userLogged.avatar.medium"
-            alt="{{ userLogged.name }}"
-            width="45px"
-            class="avatar-rounded"
-          />
-        </div>
-      </ng-template>
-    </div>
-  </mat-toolbar>
-
+  <app-header-navigation></app-header-navigation>
   <div>
     <router-outlet></router-outlet>
   </div>
