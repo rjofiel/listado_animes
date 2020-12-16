@@ -1,0 +1,12 @@
+.cardPotential{
+  width: 250px;
+  padding: 5px 10px;
+}
+
+.potentialContent{
+  margin: 5px
+}
+
+.iconClose{
+  cursor: pointer;
+}

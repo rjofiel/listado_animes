@@ -204,7 +204,7 @@ export class DatasAnimesComponent implements OnInit {
 
   showDialog(e: IAnime) {
     const dialogRef = this.updateEntry.open(UpdateAnimeComponent, {
-      width: '600px',
+      width: '760px',
       data: e,
     })
 

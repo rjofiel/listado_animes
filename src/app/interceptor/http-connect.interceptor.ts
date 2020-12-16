@@ -16,8 +16,8 @@ export class HttpConnectInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
 
-if(request.url === "https://trace.moe/api/search"){
 
+if(request.url === "https://trace.moe/api/search"){
   request.clone({
     setHeaders:{
       "Content-Type": 'aplication/json'

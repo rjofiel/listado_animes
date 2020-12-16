@@ -99,10 +99,14 @@ export class SearchanimeComponent implements OnInit {
 
   loadedDialog(): MatDialogRef<PotentialResultsComponent, any>{
    return this.potentialModal.open(PotentialResultsComponent, {
-      width:'450px',
+      width:'690px',
       data: this.arrayId,
     },)
   }
+
+   closedModalSelect(){
+     this.potentialModal.closeAll()
+   }
 
 
   dataModalUpdate!: IAnime;

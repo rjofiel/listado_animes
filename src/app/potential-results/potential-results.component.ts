@@ -39,7 +39,7 @@ export class PotentialResultsComponent implements OnInit {
   }
 
   closeModal() {
-    this.finishedModal.emit();
+    this.potentialResults.close();
   }
 
   selectedCloseModal() {

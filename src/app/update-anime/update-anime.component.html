@@ -3,74 +3,98 @@
 <div mat-dialog-content fxLayout fxLayoutAlign="center" fxLayoutGap="20px">
   <form [formGroup]="formUpdate" novalidate>
     <div>
-      <label for="status">Status</label>
-      <select
-        name="status"
-        id="status"
-        formControlName="statuEntry"
-        (change)="changeStatusAnime($event)"
-      >
-        <option value="" selected disabled>-- Select a status --</option>
-        <option *ngFor="let statu of statuAnime" [ngValue]="statu | uppercase">
-          {{ statu }}
-        </option>
-      </select>
-    </div>
-    <div>
-      <span
-        *ngIf="
-          !formUpdate.get('statuEntry')?.valid &&
-          !formUpdate.get('statuEntry')?.touched
-        "
-        >Please select a status</span
-      >
+      <mat-form-field appearance="outline">
+        <mat-label for="status">Status</mat-label>
+        <mat-select
+          name="status"
+          id="status"
+          formControlName="statuEntry"
+          (selectionChange)="changeStatusAnime($event)"
+        >
+          <mat-option value="" selected disabled
+            >-- Select a status --</mat-option
+          >
+          <mat-option
+            *ngFor="let statu of statuAnime"
+            [value]="statu | uppercase"
+          >
+            {{ statu }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="!formUpdate.get('statuEntry')?.valid">
+        <span
+          *ngIf="
+            !formUpdate.get('statuEntry')?.valid &&
+            !formUpdate.get('statuEntry')?.touched
+          "
+          >Please select a status</span
+        >
+      </mat-error>
     </div>
 
     <div>
-      <label for="progress">Episodes</label>
-      <input
-        type="number"
-        name="progress"
-        id="progress"
-        formControlName="progressEpisodes"
-      />
-    </div>
-    <div>
-      <div>
-        <span *ngIf="!formUpdate.get('progressEpisodes')?.valid"
+      <mat-form-field appearance="outline">
+        <mat-label for="progress">Episodes</mat-label>
+        <input
+          matInput
+          type="number"
+          name="progress"
+          id="progress"
+          formControlName="progressEpisodes"
+        />
+      </mat-form-field>
+      <mat-error *ngIf="!formUpdate.get('progressEpisodes')?.valid">
+        <p>
+          <span *ngIf="!formUpdate.get('progressEpisodes')?.valid"
           >Minimun episodes is 1.</span
         >
-      </div>
-      <div>
-        <span *ngIf="!formUpdate.get('progressEpisodes')?.valid"
-          >This anime only have {{ dataSelectAnime.episodes }}</span
-        >
-      </div>
+        </p>
+
+        <p>
+          <span *ngIf="!formUpdate.get('progressEpisodes')?.valid"
+          >This anime only have {{ dataSelectAnime.episodes }}</span>
+        </p>
+
+      </mat-error>
     </div>
 
     <div>
-      <label for="inicio">Inicio</label>
+      <mat-form-field appearance="outline">
+
+      <mat-label for="inicio">Inicio</mat-label>
       <input
+      matInput
         type="date"
         name="inicio"
         formControlName="startedAt"
         (change)="changeStartedDate($event)"
       />
+      </mat-form-field>
     </div>
 
     <div>
-      <label for="finalizado">Finalizado</label>
-      <input type="date" name="finalizado" formControlName="completedAt" />
+
+      <mat-form-field appearance="outline">
+
+      <mat-label for="finalizado">Finalizado</mat-label>
+      <input matInput type="date" name="finalizado" formControlName="completedAt" />
+      </mat-form-field>
+
     </div>
 
     <div>
-      <label for="notas">Notas</label>
-      <textarea name="notas" formControlName="notesAnime"></textarea>
+      <mat-form-field appearance="outline">
+        <mat-label for="notas">Notas</mat-label>
+      <textarea matInput name="notas" formControlName="notesAnime"></textarea>
+      </mat-form-field>
+
     </div>
 
-    <button class="btn btn-danger" (click)="closeModal()">Cancel</button>
-
+    <div fxLayout fxLayoutGap="10px">
+      <button mat-flat-button color="accent" (click)="closeModal()">Cancel</button>
     <button
+    mat-raised-button
       color="primary"
       (click)="createEntry($event); closeModal()"
       *ngIf="!idListState; else NoIdEntry"
@@ -81,19 +105,21 @@
 
     <ng-template #NoIdEntry>
       <button
-        class="btn btn-primary"
+      mat-raised-button
         (click)="updateEntry($event); closeModal()"
         [disabled]="!formUpdate.valid"
       >
         Update
       </button>
 
-      <button class="btn btn-light" (click)="deleteEntry($event)">
+      <button  mat-raised-button color="warn" (click)="deleteEntry($event)">
         Delete
       </button>
     </ng-template>
+    </div>
+
   </form>
-  <div>
+  <div class="coverDialog">
     <img [src]="dataSelectAnime.coverImage.large" alt="tituloAnime" />
   </div>
 </div>

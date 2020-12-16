@@ -21,10 +21,8 @@ export class HeaderNavigationComponent implements OnInit {
     if (this.Authentificated) {
       this.animeService.getToken().subscribe(({ data, loading, error }) => {
         this.userLogged = data.Viewer;
-
       })
     }
-
   }
 
   volver = (e: any) => {
@@ -38,6 +36,9 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
+
   }
 
 }

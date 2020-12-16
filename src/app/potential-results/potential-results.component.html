@@ -1,35 +1,33 @@
-<div class="modal modal-open" tabindex="-1" style="display: block">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Posibles coincidencias</h4>
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="closeModal()"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div *ngIf="imageFound; else notFound">
-          <app-anime-item
-            *ngFor="let itemAnime of potentialAnime"
-            [elemAnime]="itemAnime"
-            (selectAnime)="selectedCloseModal()"
-          >
-          </app-anime-item>
-        </div>
-        <ng-template #notFound>
-          <h1>No se encontraron coincidencias</h1>
-        </ng-template>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-danger" type="button" (click)="closeModal()">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
+<div fxLayout fxLayoutAlign="space-around center">
+  <h2 mat-dialog-title class="modal-title">Posibles coincidencias</h2>
+  <mat-icon class="iconClose" (click)="closeModal()" >close</mat-icon>
 </div>
+
+<div mat-dialog-content  class="potentialContent">
+  <div
+    *ngIf="imageFound; else notFound"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+  >
+    <app-anime-item
+      class="cardPotential"
+      *ngFor="let itemAnime of potentialAnime"
+      [elemAnime]="itemAnime"
+      (selectAnime)="closeModal()"
+    >
+    </app-anime-item>
+  </div>
+  <ng-template #notFound>
+    <h1>No se encontraron coincidencias</h1>
+  </ng-template>
+</div>
+<button
+  mat-flat-button
+  color="warn"
+  class="btn btn-danger"
+  type="button"
+  (click)="closeModal()"
+>
+  Cancel
+</button>
