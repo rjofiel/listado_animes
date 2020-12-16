@@ -19,7 +19,6 @@ import { CommonModule } from '@angular/common';
 import { DatasAnimesComponent } from './structure/Home/datas-animes.component';
 import { AnimeItemComponent } from './structure/dataAnime/anime-item.component';
 import { AnimeDetailsComponent } from './structure/Details/anime-details.component';
-import { AniLoginComponent } from './structure/Auth/ani-login.component';
 import { UpdateAnimeComponent } from './update-anime/update-anime.component';
 import { FiltersAnimeComponent } from './structure/filters-anime/filters-anime.component';
 import { PotentialResultsComponent } from './potential-results/potential-results.component';
@@ -38,7 +37,6 @@ import { HeaderNavigationComponent } from './structure/header-navigation/header-
     AnimeItemComponent,
     SearchanimeComponent,
     AnimeDetailsComponent,
-    AniLoginComponent,
     UpdateAnimeComponent,
     FiltersAnimeComponent,
     PotentialResultsComponent,

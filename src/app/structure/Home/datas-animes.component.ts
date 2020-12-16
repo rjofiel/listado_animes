@@ -1,8 +1,9 @@
 
-import { Component,  OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { UpdateAnimeComponent } from 'src/app/update-anime/update-anime.component';
 import { IAnime, ImgAnime, PageInfo, PagesAnime } from '../../interfaces/pages-anime';
 import { QueryVariables } from '../../interfaces/query-variables';
@@ -15,7 +16,11 @@ import { AnimesService } from '../../services/animes.service';
 })
 export class DatasAnimesComponent implements OnInit {
 
-  constructor(public updateEntry: MatDialog, private animeServices: AnimesService, private route: ActivatedRoute, private ruta: Router) { }
+  constructor(public updateEntry: MatDialog, private animeServices: AnimesService, private route: ActivatedRoute, private ruta: Router) {
+
+
+
+   }
 
   @ViewChild('modalAddAnime') modal !: TemplateRef<any>;
   @ViewChild('modalOpened', { read: ViewContainerRef }) opened !: ViewContainerRef;
@@ -41,7 +46,35 @@ export class DatasAnimesComponent implements OnInit {
 
   backdrop: any
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    if (localStorage.getItem('testing') === 'logged') {
+      console.log("test");
+      localStorage.removeItem('testing')
+      setTimeout(() => {
+        window.location.reload()
+      }, 200)
+    }
+
+    this.route.fragment.pipe(map(fragment => new URLSearchParams(fragment)),
+      map(params => ({
+        access_token: params.get('access_token'),
+
+      }))
+    ).subscribe((res) => {
+      if (res.access_token) {
+        localStorage.setItem('accessToken', res.access_token)
+
+        localStorage.setItem('testing', 'logged')
+
+        this.ruta.navigateByUrl('/EntryAnime/page/1')
+
+      } else {
+      localStorage.removeItem('testing')
+      }
+    })
+
+  }
 
   ngAfterViewInit() { this.reloadData(); }
 
@@ -169,7 +202,7 @@ export class DatasAnimesComponent implements OnInit {
 
   }
 
-  showDialog(e:IAnime){
+  showDialog(e: IAnime) {
     const dialogRef = this.updateEntry.open(UpdateAnimeComponent, {
       width: '600px',
       data: e,

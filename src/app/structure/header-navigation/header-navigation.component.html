@@ -16,7 +16,8 @@
         <a [routerLink]="['/Contact']">Contact</a>
       </li>
       <li fxLayoutAlign="center center" >
-        <a [routerLink]="['/Login']" *ngIf="!userLogged">Log-in</a>
+        <a mat-raised-button color="accent" *ngIf="!userLogged" href="https://anilist.co/api/v2/oauth/authorize?client_id=4530&response_type=token" >Login with Anilist</a>
+        <!--<a [routerLink]="['/Login']" *ngIf="!userLogged">Log-in</a>-->
       </li>
     </ul>
   </div>
