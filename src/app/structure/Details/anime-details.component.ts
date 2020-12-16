@@ -27,6 +27,25 @@ export class AnimeDetailsComponent implements OnInit {
 
   animeData!: AnimeDetails;
   castAnime !: infoCast[];
+  isAuthentificated = localStorage.getItem("accessToken") !== null
+
+  sitesLogo = {
+    Netflix: '',
+    Funimation:'',
+    AnimeLab: '',
+    Crunchyroll: '',
+    OfficialSite: ''
+  }
+
+  personalStaff: {
+    nameCharacterFull: string,
+    nameCharacterNative: string,
+    imgCharacter: string,
+    desCharacter: string,
+    nameActorFull: string,
+    nameActorNative: string,
+    imgActor: string,
+  }[]  = []
 
   urlTrailer = 'https://www.youtube.com/embed/'
 
@@ -50,6 +69,7 @@ export class AnimeDetailsComponent implements OnInit {
       }
     }
 
+
     setTimeout(() => {
       this.animesService.getDetailAnime(variableQueries).subscribe(({ data, loading, error }) => {
         this.animeData = this.animesService.fixDescription(data.Media) as AnimeDetails,
@@ -60,10 +80,51 @@ export class AnimeDetailsComponent implements OnInit {
           if(this.animeData.trailer){
             this.loadTrailer();
           }
+
+          this.animeData.externalLinks.forEach((el)=>{
+            if(el.site === 'Netflix'){
+              this.sitesLogo.Netflix = el.url
+            }
+
+            if(el.site === 'Funimation'){
+              this.sitesLogo.Funimation = el.url
+            }
+
+            if(el.site === 'AnimeLab'){
+              this.sitesLogo.AnimeLab = el.url
+            }
+
+            if(el.site === 'Crunchyroll'){
+              this.sitesLogo.Crunchyroll = el.url
+            }
+
+            if(el.site === 'Official Site'){
+              this.sitesLogo.OfficialSite = el.url
+            }
+          })
+
+          this.setStaftData();
       }).unsubscribe
     }, 200)
 
 
+  }
+
+  setStaftData(){
+
+    this.castAnime.forEach((character)=>{
+      character.voiceActors.forEach((actor)=>{
+
+      this.personalStaff.push({
+      "nameCharacterFull": character.node.name.full,
+      "nameCharacterNative": character.node.name.native,
+      "imgCharacter":  character.node.image.medium,
+      "desCharacter": character.node.description,
+      "nameActorFull": actor.name.full,
+      "nameActorNative": actor.name.native,
+      "imgActor": actor.image.medium,})
+      })
+    })
   }
 
   loadTrailer() {

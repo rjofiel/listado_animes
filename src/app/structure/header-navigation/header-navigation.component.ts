@@ -10,7 +10,7 @@ import { AnimesService } from 'src/app/services/animes.service';
 })
 export class HeaderNavigationComponent implements OnInit {
 
-  Authentificated = localStorage.getItem("accessToken") ? true : false
+  Authentificated = localStorage.getItem("accessToken") !== null
 
   userLogged !:UserAuthenticated
   noLoged: boolean = true;

@@ -18,11 +18,27 @@
         name="buscadorAvanzado"
         id="buscadorAvanzado"
         (keyup)="reviseVariables()"
+        [(ngModel)]="filterSearch"
         placeholder="Search Advanced"
       />
-      <mat-icon matSuffix>search</mat-icon>
+      <mat-icon
+        class="pointer"
+        matSuffix
+        *ngIf="filterSearch !== ''"
+        (click)="onSearchClear()"
+        >close</mat-icon
+      >
+      <mat-icon matSuffix *ngIf="!filterSearch">search</mat-icon>
     </mat-form-field>
+
     <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="25px">
+      <mat-icon
+        class="pointer"
+        matSuffix
+        *ngIf="stateAdult"
+        (click)="onAdultClear()"
+        >close</mat-icon
+      >
       <mat-form-field>
         <mat-label for="isAdult"> Adult Content </mat-label>
 
@@ -30,14 +46,22 @@
           class="form-control-sm"
           (selectionChange)="selectAdult($event); reviseVariables()"
           formControlName="isAdult"
+          [(ngModel)]="stateAdult"
           name="isAdult"
           id="isAdult"
         >
           <mat-option [value]="false" selected>No</mat-option>
-          <mat-option [value]="true">Si</mat-option>
+          <mat-option [value]="true"> Yes </mat-option>
         </mat-select>
       </mat-form-field>
 
+      <mat-icon
+        class="pointer"
+        matSuffix
+        *ngIf="stateYear"
+        (click)="onDateAnimeClear()"
+        >close</mat-icon
+      >
       <mat-form-field>
         <mat-label> Year </mat-label>
         <mat-select
@@ -46,8 +70,9 @@
           id="year"
           (selectionChange)="selectDateAnime($event); reviseVariables()"
           formControlName="dateAnime"
+          [(ngModel)]="stateYear"
         >
-          <mat-option value="" selected disabled>Select a year</mat-option>
+          <mat-option value='' selected disabled>Select a year</mat-option>
           <mat-option
             *ngFor="let selectYear of yearOptions"
             [value]="selectYear"
@@ -57,12 +82,20 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-icon
+        class="pointer"
+        matSuffix
+        *ngIf="startSeason"
+        (click)="onSeasonClear()"
+        >close</mat-icon
+      >
       <mat-form-field>
         <mat-label class="form-group" for="season">Season</mat-label>
         <mat-select
           class="form-control-sm"
           name="season"
           id="season"
+          [(ngModel)]="startSeason"
           (selectionChange)="selectSeason($event); reviseVariables()"
           formControlName="season"
         >
@@ -73,12 +106,20 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-icon
+        class="pointer"
+        matSuffix
+        *ngIf="stateStatus"
+        (click)="onStatusClear()"
+        >close</mat-icon
+      >
       <mat-form-field>
         <mat-label for="status">Status</mat-label>
         <mat-select
           class="form-control-sm"
           name="status"
           id="status"
+          [(ngModel)]="stateStatus"
           (selectionChange)="selectStatus($event); reviseVariables()"
           formControlName="status"
         >
@@ -89,12 +130,20 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-icon
+        class="pointer"
+        matSuffix
+        *ngIf="stateSource"
+        (click)="onSourceAnimeClear()"
+        >close</mat-icon
+      >
       <mat-form-field>
         <mat-label for="source">Source</mat-label>
         <mat-select
           class="form-control-sm"
           name="source"
           id="source"
+          [(ngModel)]="stateSource"
           (selectionChange)="selectSource($event); reviseVariables()"
           formControlName="sourceAnime"
         >
@@ -105,20 +154,22 @@
         </mat-select>
       </mat-form-field>
 
-
       <button
         mat-raised-button
         color="accent"
         class="btn btn-outline-primary dropdown-btn"
         (click)="toggleGenres($event)"
-      >Genre
+      >
+        Genre
       </button>
-
-
     </div>
 
-
-    <div *ngIf="genreActive" fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+    <div
+      *ngIf="genreActive"
+      fxLayout="row wrap"
+      fxLayoutGap="20px"
+      fxLayoutAlign="center center"
+    >
       <div
         class="form-check-inline form-group"
         *ngFor="let genre of initGenres"
@@ -132,9 +183,10 @@
         </mat-checkbox>
       </div>
     </div>
+
     <div fxLayout="row" fxLayoutGap="10px" class="uploadFile">
       <div fxFlex="90" class="sizeFile">
-        <mat-form-field class="file" appearance="outline" >
+        <mat-form-field class="file" appearance="outline">
           <mat-label>Lucky Search</mat-label>
           <ngx-mat-file-input
             #imag
@@ -147,12 +199,16 @@
         </mat-form-field>
       </div>
 
-
       <div class="loadedImage" *ngIf="loadedImage">
-        <div class="spinnerLucky"  *ngIf="loadingLucky">
+        <div class="spinnerLucky" *ngIf="loadingLucky">
           <mat-spinner color="accent"></mat-spinner>
         </div>
-        <img id="potentialImg" (click)="openPreviousDialog()" [src]="loadedImage" alt="" />
+        <img
+          id="potentialImg"
+          (click)="openPreviousDialog()"
+          [src]="loadedImage"
+          alt=""
+        />
       </div>
     </div>
   </form>

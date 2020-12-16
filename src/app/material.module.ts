@@ -13,6 +13,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 const MaterialComponents: any[] | Type<any> | ModuleWithProviders<{}> = [];
 
@@ -33,6 +34,7 @@ const MaterialComponents: any[] | Type<any> | ModuleWithProviders<{}> = [];
     MaterialFileInputModule,
     MatIconModule,
     MatTreeModule,
+    MatExpansionModule,
   ],
   exports: [
     MaterialComponents,
@@ -48,7 +50,8 @@ const MaterialComponents: any[] | Type<any> | ModuleWithProviders<{}> = [];
     MatButtonModule,
     MaterialFileInputModule,
     MatIconModule,
-    MatTreeModule
+    MatTreeModule,
+    MatExpansionModule,
   ]
 })
 export class MaterialModule { }

@@ -1,14 +1,226 @@
-.bgDetails{
-background-color: cornsilk;
-padding: 0 1em 1em 1em;
+#contenedorDetails{
+  box-sizing: border-box;
 }
 
-.featuresAnime{
-  background-color: #c7956d;
-  margin: 0;
-  padding: 1em;
+.header-wrap{
+background-color: #cac8c8;
 }
 
 .characters{
   width: 100%;
+}
+
+.banner{
+  height: 250px;
+  background-position: 50% 35%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.header{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 280px auto;
+  padding: 10px 25em;
+}
+
+.containerCover{
+  display: block;
+}
+
+.image{
+  display: block;
+  position: relative;
+  margin:5px 25px;
+}
+
+.anime-img img{
+  margin-top: -65px;
+  border-radius: 5px;
+}
+
+.image img{
+  display: block;
+  height: auto;
+}
+
+img{
+  max-width: 100%;
+  box-shadow: 0px 1px 5px #534e52 ;
+}
+
+.containerButtons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.basic-info{
+  text-align: center;
+}
+
+.heading{
+  text-transform: uppercase;
+  font-weight: 200;
+  font-size: 1.2em;
+}
+
+.heading-content{
+  font-size: 2em;
+  font-weight: 500;
+}
+
+.externalLinks{
+  padding: 5px 10px;
+}
+
+.relatedLinks{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.relatedLinks a{
+  display: block;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.officialSite-icon{
+  background-image: url('/assets/img/official.png');;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 45px 45px;
+  transition: all 0.5s;
+}
+
+.officialSite-icon:hover{
+  background-color: rgb(50, 78, 190);
+}
+
+
+.crunchyroll-icon{
+  background-image: url('/assets/img/crunchyroll.png');;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 50px 50px;
+  transition: all 0.5s;
+}
+
+.crunchyroll-icon:hover{
+  background-color: orange;
+}
+
+.animeLab-icon{
+  background-image: url('/assets/img/animelab.png');;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 50px 50px;
+  transition: all 0.5s;
+}
+
+.animeLab-icon:hover{
+  background-color: rgb(129, 25, 129);
+}
+
+
+.netflix-icon{
+  background-image: url('/assets/img/netflix.png');;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 35px 40px;
+  transition: all 0.5s;
+}
+
+.netflix-icon:hover{
+  background-color: crimson;
+}
+
+
+.funimation-icon{
+  background-image: url('/assets/img/funimation.png');;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 45px 45px;
+  transition: all 0.5s;
+}
+
+.funimation-icon:hover{
+  background-color: rgb(85, 18, 143);
+}
+
+.release{
+  font-weight: 200;
+}
+
+.containerDetails{
+  display: grid;
+  grid-template-columns: 350px auto;
+  grid-gap: 1em;
+  padding: 1em 20em;
+}
+
+
+.featuresAnime mat-card{
+  margin: 1em;
+}
+
+.styleBold{
+  font-weight: bold;
+}
+
+mat-card-content ul {
+  list-style-type: none;
+  padding-left: 30px;
+}
+
+.staff{
+  min-width: 400px;
+  padding: 0em 5em;
+}
+
+.dataStaff{
+  text-align: center;
+}
+
+.dataStaff h2, .dataStaff p {
+  margin-bottom: 8px;
+}
+
+.dataStaff img {
+  width: 80px;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+
+.nameCharacter, .nameActor{
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+
+.nativeName{
+  font-weight: 200;
+}
+
+
+.mat-expansion-panel{
+  margin: 15px 5px !important;
+}
+
+.mat-expansion-panel-header{
+  height: 240px !important;
+}
+
+.containerExpansion{
+  width: 100%;
+}
+
+.sizeExpansion{
+   width: 400px;
 }

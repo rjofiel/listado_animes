@@ -10,7 +10,8 @@ import { QueryVariables } from 'src/app/interfaces/query-variables';
 })
 export class FiltersAnimeComponent implements OnInit {
 
-  filterSearch = ''
+  filterSearch = '';
+  stateAdult = false;
 
   @Input() initGenres!: Generos[]
   @Input() loadingLucky !: boolean;
@@ -215,5 +216,54 @@ export class FiltersAnimeComponent implements OnInit {
 
   openPreviousDialog(){
     this.showPrevousDialog.emit()
+  }
+
+  onSearchClear(){
+    this.inputSearch?.setValue('', {
+      onlySelf: true
+    })
+    this.reviseVariables()
+  }
+
+  onAdultClear(){
+    this.isAdult?.setValue(false, {
+      onlySelf: true
+    })
+    this.reviseVariables()
+  }
+
+  stateYear = ''
+  onDateAnimeClear(){
+    this.dateAnime?.setValue('', {
+      onlySelf: true
+    })
+    console.log(this.dateAnime?.value);
+
+    this.reviseVariables()
+  }
+
+  startSeason = ''
+  onSeasonClear(){
+    this.season?.setValue('', {
+      onlySelf: true
+    })
+    this.reviseVariables()
+  }
+
+  stateStatus = ''
+  onStatusClear(){
+    this.status?.setValue('', {
+      onlySelf: true
+    })
+    this.reviseVariables()
+  }
+
+  stateSource = ''
+  onSourceAnimeClear(){
+    this.sourceAnime?.setValue('', {
+      onlySelf: true
+    })
+
+    this.reviseVariables()
   }
 }

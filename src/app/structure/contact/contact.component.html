@@ -7,13 +7,27 @@
       (ngSubmit)="sendForm()"
     >
       <div fxLayout="row" fxLayoutGap="5px">
-        <mat-form-field fxFlex="50" appearance="outline">
-          <mat-label for="email"> E-mail </mat-label>
+        <div fxLayout="column"  fxFlex="50" fxLayoutGap="2px">
+          <mat-form-field appearance="outline">
+            <mat-label for="email"> E-mail </mat-label>
+            <input matInput type="email" formControlName="email" />
+            <mat-hint>Like: user@example.com</mat-hint>
+          </mat-form-field>
+          <mat-error>
+            <span
+              *ngIf="
+                !formContact.get('email')?.valid &&
+                formContact.get('email')?.touched
+              "
+              >Please, insert a valid email</span
+            >
+          </mat-error>
+        </div>
 
-          <input matInput type="email" formControlName="email" />
-        </mat-form-field>
+        <div fxLayout="column"  fxFlex="50" fxLayoutGap="2px">
 
-        <mat-form-field fxFlex="50" appearance="outline">
+
+        <mat-form-field appearance="outline">
           <mat-label for="username"> Username </mat-label>
 
           <input
@@ -23,39 +37,89 @@
             formControlName="username"
           />
         </mat-form-field>
+
+        <mat-error>
+          <span
+            *ngIf="
+              !formContact.get('username')?.valid &&
+              formContact.get('username')?.touched
+            "
+            >Please, insert your username</span
+          >
+        </mat-error>
+
+        </div >
       </div>
 
-      <mat-form-field appearance="outline">
-        <mat-label for="subject">Subject</mat-label>
-        <mat-select
-          for="email"
-          name="subject"
-          formControlName="issues"
-          (selectionChange)="changeSubject($event)"
-        >
-          <mat-option value="" selected disabled>Select an issue</mat-option>
-          <mat-option value="{{ issue }}" *ngFor="let issue of subject">
-            {{ issue }} </mat-option
+      <div fxLayout="column"  fxFlex="50" fxLayoutGap="2px">
+        <mat-form-field appearance="outline">
+          <mat-label for="subject">Subject</mat-label>
+          <mat-select
+            for="email"
+            name="subject"
+            formControlName="issues"
+            (selectionChange)="changeSubject($event)"
           >
-        </mat-select>
-      </mat-form-field>
+            <mat-option value="" selected disabled>Select an issue</mat-option>
+            <mat-option value="{{ issue }}" *ngFor="let issue of subject">
+              {{ issue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error>
+          <span
+            *ngIf="
+              !formContact.get('issues')?.valid &&
+              formContact.get('issues')?.touched
+            "
+            >Please, select an issue</span
+          >
+        </mat-error>
+      </div>
 
+     <div fxLayout="column"  fxFlex="50" fxLayoutGap="2px">
       <mat-form-field appearance="outline">
         <mat-label for="anime"> Anime name </mat-label>
 
         <input matInput name="anime" formControlName="nameAnime" />
       </mat-form-field>
 
+      <mat-error>
+        <span
+          *ngIf="
+            !formContact.get('nameAnime')?.valid &&
+            formContact.get('nameAnime')?.touched
+          "
+          >Please, insert a anime</span
+        >
+      </mat-error>
+     </div>
+
+
       <mat-form-field appearance="outline">
         <mat-label for="messaje"> Messaje </mat-label>
 
-        <textarea matInput name="anime" formControlName="messaje" ></textarea>
+        <textarea matInput name="anime" formControlName="messaje"></textarea>
       </mat-form-field>
+      <mat-error>
+        <span
+          *ngIf="
+            !formContact.get('messaje')?.valid &&
+            formContact.get('messaje')?.touched
+          "
+          >Please, insert a messaje</span
+        >
+      </mat-error>
 
-      <div>
-        <button mat-raised-button type="submit" [disabled]="!formContact.valid" >
-          Enviar
+      <div class="submitForm" fxLayout fxLayoutGap="10px">
+        <button mat-raised-button type="submit" [disabled]="!formContact.valid">
+          Send
         </button>
+
+        <div class="spinnerLoading" *ngIf="loading">
+          <mat-spinner color="primary" *ngIf="true"></mat-spinner>
+        </div>
+
       </div>
     </form>
   </div>

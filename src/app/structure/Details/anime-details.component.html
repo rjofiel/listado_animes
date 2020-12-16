@@ -1,106 +1,235 @@
-<div class="container-fluid" id="contenedorDetails">
+<div>
   <div class="spinnerLoading" *ngIf="loading; else detailLoaded">
     <mat-spinner color="accent" *ngIf="loading"></mat-spinner>
   </div>
 
   <ng-template #detailLoaded>
-    <img
-      [src]="animeData.bannerImage"
-      [alt]="animeData.title.userPreferred"
-      width="100%"
-    />
+    <div class="header-wrap">
+      <div
+        class="banner"
+        [style.background-image]="'url(' + animeData.bannerImage + ')'"
+      ></div>
+      <div class="header">
+        <div class="containerCover">
+          <figure class="image anime-img">
+            <img
+              [src]="animeData.coverImage.large"
+              [alt]="animeData.title.romaji"
+            />
+          </figure>
 
-    <div fxLayout fxLayoutGap="20px" class="bgDetails">
-      <div>
-        <img
-          [src]="animeData.coverImage.large"
-          [alt]="animeData.title.romaji"
-          width="300px"
-        />
+          <div class="containerButtons">
+            <button mat-flat-button color="primary">
+              {{ animeData.status }}
+            </button>
 
-        <div class="featuresAnime">
-          <button mat-flat-button color="accent" (click)="showDialog(animeData)">
-            {{ animeData.status }}
-          </button>
-          <div>
-            <p>Episodes: {{ animeData.episodes }}</p>
-            <p>
-              Start date: {{ animeData.startDate.day }}/{{
-                animeData.startDate.month
-              }}/{{ animeData.startDate.year }}
-            </p>
-            <p>
-              End date: {{ animeData.endDate.day }}/{{
-                animeData.endDate.month
-              }}/{{ animeData.endDate.year }}
-            </p>
+            <button
+              *ngIf="animeData.mediaListEntry"
+              mat-flat-button
+              color="accent"
+              (click)="showDialog(animeData)"
+            >
+              {{ animeData.mediaListEntry?.status }}
+            </button>
+
+            <button
+              *ngIf="!animeData.mediaListEntry && isAuthentificated"
+              mat-flat-button
+              color="accent"
+              (click)="showDialog(animeData)"
+            >
+              ADD
+            </button>
           </div>
+        </div>
+
+        <div>
           <div>
-            <h2>Studios</h2>
-            <div *ngFor="let studio of animeData.studios.edges">
-              <p>{{ studio.node.name }}</p>
+            <h1>
+              {{ animeData.title.userPreferred }}
+              <span class="release"
+                >({{ animeData.startDate.year }} -
+                {{ animeData.endDate.year || "Now" }})</span
+              >
+            </h1>
+          </div>
+          <p>{{ animeData.description }}</p>
+          <div fxLayout fxLayoutAlign="space-between none">
+            <div fxLayout="row" fxLayoutGap="20px">
+              <div class="basic-info">
+                <p class="heading">Episodes</p>
+                <p class="heading-content">
+                  {{
+                    animeData.episodes || animeData.nextAiringEpisode.episode
+                  }}
+                </p>
+              </div>
+
+              <div class="basic-info">
+                <p class="heading">Score</p>
+                <div fxLayout fxLayoutGap="5px" fxLayoutAlign="center none">
+                  <p class="heading-content">{{ animeData.averageScore }}</p>
+                  <mat-icon>star</mat-icon>
+                </div>
+              </div>
+
+              <div class="basic-info">
+                <p class="heading">Season</p>
+                <p class="heading-content">{{ animeData.season }}</p>
+              </div>
+            </div>
+            <div class="externalLinks">
+              <div class="relatedLinks">
+                <a
+                  *ngIf="sitesLogo.OfficialSite"
+                  class="officialSite-icon"
+                  [href]="sitesLogo.OfficialSite"
+                ></a>
+
+                <a
+                  *ngIf="sitesLogo.Crunchyroll"
+                  class="crunchyroll-icon"
+                  [href]="sitesLogo.Crunchyroll"
+                ></a>
+
+                <a
+                  *ngIf="sitesLogo.AnimeLab"
+                  class="animeLab-icon"
+                  [href]="sitesLogo.AnimeLab"
+                ></a>
+
+                <a
+                  *ngIf="sitesLogo.Funimation"
+                  class="funimation-icon"
+                  [href]="sitesLogo.Funimation"
+                ></a>
+
+                <a
+                  *ngIf="sitesLogo.Netflix"
+                  class="netflix-icon"
+                  [href]="sitesLogo.Netflix"
+                ></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <div>
-          <h1>{{ animeData.title.userPreferred }}</h1>
-          <p>{{ animeData.description }}</p>
-        </div>
-        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
-          <div
-            *ngFor="let link of animeData.externalLinks"
-            class="externalLinks"
-          >
-            <a [href]="link.url">{{ link.site }}</a>
-          </div>
-        </div>
-        <div fxLayout fxLayoutAlign="space-between none" fxLayoutGap="10px">
-          <div *ngIf="animeData.trailer">
-            <h1>Trailer</h1>
-            <div>
-              <iframe
-                width="550"
-                height="300"
-                [src]="safeURL"
-                frameborder="0"
-                allowfullscreen
-              ></iframe>
-            </div>
-          </div>
-          <div>
-            <div
-              class="characters"
-              *ngFor="let actor of castAnime"
-              fxLayout="row"
-              fxLayoutAlign="space-between none"
-            >
-              <div>
-                <h2>Character</h2>
-                <h3>{{ actor.node.name.full }}</h3>
-                <h4>{{ actor.node.name.native }}</h4>
-                <img
-                  src="{{ actor.node.image.medium }}"
-                  [alt]="actor.node.name.full"
-                  width="100"
-                  height="135"
-                />
-                <p>{{ actor.node.description | truncatePipe: 10:true }}</p>
-              </div>
+    </div>
 
-              <div>
-                <h2>Voice Actor</h2>
-                <h3>{{ actor.voiceActors[0].name.full }}</h3>
-                <h4>{{ actor.voiceActors[0].name.native }}</h4>
-                <img
-                  src="{{ actor.voiceActors[0].image.medium }}"
-                  [alt]="actor.voiceActors[0].name.full"
-                  width="100"
-                  height="150"
-                />
-              </div>
+    <div class="containerDetails">
+      <div class="featuresAnime">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              <h2>Information</h2>
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <ul>
+              <li>
+                <span class="styleBold"> Format: </span> {{ animeData.format }}
+              </li>
+              <li>
+                <span class="styleBold"> Episode duration: </span>
+                {{ animeData.duration }}
+              </li>
+              <li>
+                <span class="styleBold"> Start Date: </span>
+                {{ animeData.startDate.day }}/{{ animeData.startDate.month }}/{{
+                  animeData.startDate.year
+                }}
+              </li>
+              <li>
+                <span class="styleBold"> End Date: </span>
+                {{ animeData.endDate.day }}/{{ animeData.endDate.month }}/{{
+                  animeData.endDate.year
+                }}
+              </li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              <h2>Studios</h2>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <ul *ngFor="let studio of animeData.studios.edges">
+              <li *ngIf="studio.isMain">
+                <span class="styleBold">Main Studio:</span>
+                {{ studio.node.name }}
+              </li>
+            </ul>
+          </mat-card-content>
+
+          <mat-card-header>
+            <mat-card-title>
+              <h2>Producers</h2>
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <ul *ngFor="let studio of animeData.studios.edges">
+              <li *ngIf="!studio.isMain">
+                <span class="styleBold">Producer:</span> {{ studio.node.name }}
+              </li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card *ngIf="animeData.trailer">
+          <mat-card-header>
+            <mat-card-title>
+              <h2>Trailer</h2>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div>
+              <iframe [src]="safeURL" frameborder="0" allowfullscreen></iframe>
             </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="staff">
+        <div>
+          <h2>Staff</h2>
+          <div class="containerExpansion" fxLayout="row wrap">
+            <mat-accordion
+              class="sizeExpansion"
+              *ngFor="let staff of personalStaff"
+              multi="false"
+            >
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title
+                    fxLayout="row"
+                    fxLayoutGap="5px"
+                    fxLayoutAlign="space-between center"
+                  >
+                    <div class="dataStaff">
+                      <h2>Character</h2>
+                      <p class="nameCharacter">{{ staff.nameCharacterFull }}</p>
+                      <p class="nativeName">{{ staff.nameCharacterNative }}</p>
+                      <img
+                        [src]="staff.imgCharacter"
+                        [alt]="staff.nameCharacterFull"
+                      />
+                    </div>
+                    <div class="dataStaff">
+                      <h2>Actor</h2>
+                      <p class="nameActor">{{ staff.nameActorFull }}</p>
+                      <p class="nativeName">{{ staff.nameActorNative }}</p>
+                      <img [src]="staff.imgActor" [alt]="staff.nameActorFull" />
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ staff.desCharacter }}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
           </div>
         </div>
       </div>

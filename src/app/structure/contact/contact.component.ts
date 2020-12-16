@@ -17,6 +17,8 @@ export class ContactComponent implements OnInit {
 
   confirmation!: string;
 
+  loading: boolean = false;
+
   constructor(private serviceMail: MailThisService) {
     this.formContact = this.createFormContact()
    }
@@ -61,6 +63,7 @@ export class ContactComponent implements OnInit {
   ngOnInit(): void {  }
 
   sendForm(){
+    this.loading = true;
 
     let dataForm = {
       _replyto: this.formContact.value.email,
@@ -69,12 +72,19 @@ export class ContactComponent implements OnInit {
       message:this.formContact.value.messaje,
     }
 
-    this.serviceMail.mailThis(dataForm).subscribe(a=>{
-        if(a){
+    this.serviceMail.mailThis(dataForm).subscribe(res=>{
+        if(res){
+          this.resetForm()
           location.href = 'https://mailthis.to/confirm';
         }
     })
   }
+
+  resetForm(){
+    this.loading = false;
+    this.formContact.reset()
+  }
+
 
 
 
